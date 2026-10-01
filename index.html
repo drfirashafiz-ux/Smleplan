@@ -3,11 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>خطة الاستعداد للاختبار</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
     body {
@@ -30,11 +34,6 @@
       text-align: center;
     }
 
-    .task-date {
-      direction: ltr;
-      text-align: right;
-    }
-
     input[type="date"] {
       font-family: 'Tajawal', sans-serif;
     }
@@ -46,703 +45,892 @@
     .dashboard-card:hover {
       transform: translateY(-2px);
     }
+
+    .section-card {
+      scroll-margin-top: 100px;
+    }
+
+    .menu-animation {
+      animation: menuShow .15s ease-out;
+    }
+
+    @keyframes menuShow {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .source-link {
+      transition: all .2s ease;
+    }
+
+    .source-link:hover {
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 
 <body class="text-slate-800 antialiased min-h-screen pb-12">
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm px-4 py-4">
-    <div class="max-w-5xl mx-auto">
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
 
-      <div class="flex items-center justify-between mb-3">
-        <div>
-          <h1 class="text-lg font-black text-slate-900">
-            🩺 خطة الاستعداد للاختبار
-          </h1>
-          <p class="text-xs text-slate-500 mt-1">
-            خطة شخصية لمدة ٤ أشهر
-          </p>
-        </div>
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
-        <div class="text-left">
-          <span id="overall-percentage" class="text-2xl font-black text-teal-600">
-            0%
-          </span>
-          <p class="text-xs text-slate-400 font-medium">
-            إجمالي الإنجاز
-          </p>
-        </div>
+      <!-- Title -->
+      <div>
+        <h1 class="font-black text-lg sm:text-xl text-slate-900">
+          🩺 خطة الاستعداد للاختبار
+        </h1>
+
+        <p class="text-xs text-slate-500 mt-1">
+          خطة مذاكرة ومتابعة يومية
+        </p>
       </div>
 
-      <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-200">
+      <!-- Progress -->
+      <div class="hidden sm:block flex-1 max-w-xs">
+
+        <div class="flex justify-between text-xs font-bold mb-1">
+          <span>الإنجاز</span>
+          <span id="header-progress-text">0%</span>
+        </div>
+
+        <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+          <div
+            id="header-progress-bar"
+            class="h-full bg-teal-600 rounded-full transition-all"
+            style="width:0%"
+          ></div>
+        </div>
+
+      </div>
+
+      <!-- Menu -->
+      <div class="relative">
+
+        <button
+          onclick="toggleMenu()"
+          class="w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-xl font-black"
+          aria-label="القائمة"
+        >
+          ⋮
+        </button>
+
         <div
-          id="overall-progress-bar"
-          class="bg-gradient-to-r from-teal-500 to-emerald-500 h-full rounded-full transition-all duration-300"
+          id="menu"
+          class="hidden absolute left-0 top-12 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden menu-animation"
+        >
+
+          <button
+            onclick="showPage('home')"
+            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+          >
+            🏠 الصفحة الرئيسية
+          </button>
+
+          <button
+            onclick="showPage('plan')"
+            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+          >
+            📋 الخطة
+          </button>
+
+          <button
+            onclick="showPage('sources')"
+            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+          >
+            📚 المصادر
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Progress -->
+    <div class="sm:hidden px-4 pb-3">
+
+      <div class="flex justify-between text-xs font-bold mb-1">
+        <span>الإنجاز</span>
+        <span id="mobile-progress-text">0%</span>
+      </div>
+
+      <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+        <div
+          id="mobile-progress-bar"
+          class="h-full bg-teal-600 rounded-full transition-all"
           style="width:0%"
         ></div>
       </div>
 
-      <div class="flex justify-between items-center mt-3 text-xs font-semibold text-slate-600">
-        <div>
-          المكتمل:
-          <span id="completed-count" class="text-emerald-600 font-bold">0</span>
-        </div>
-
-        <div>
-          المتبقي:
-          <span id="remaining-count" class="text-amber-600 font-bold">0</span>
-        </div>
-
-        <div>
-          الإجمالي:
-          <span id="total-count" class="text-slate-800 font-bold">0</span>
-        </div>
-      </div>
-
     </div>
+
   </header>
 
 
-  <main class="max-w-5xl mx-auto px-4 mt-6 space-y-6">
+  <main class="max-w-5xl mx-auto px-4 mt-6">
+
+    <!-- ==================================================
+         HOME PAGE
+    =================================================== -->
+    <section id="home-page" class="space-y-6">
+
+      <!-- Welcome -->
+      <section class="bg-gradient-to-l from-teal-700 to-teal-600 text-white rounded-3xl p-6 shadow-sm">
+
+        <p class="text-teal-100 text-sm font-bold mb-2">
+          لوحة المتابعة
+        </p>
+
+        <h2 class="text-2xl sm:text-3xl font-black">
+          أهلاً بك في خطة الاستعداد 🩺
+        </h2>
+
+        <p class="text-teal-50 mt-2 text-sm leading-7">
+          تابع إنجازك اليومي، واعرف المتبقي من الخطة وموعد الاختبار.
+        </p>
+
+      </section>
 
 
-    <!-- ================================================= -->
-    <!-- DASHBOARD -->
-    <!-- ================================================= -->
+      <!-- Main Stats -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
 
-    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-
-      <div class="bg-gradient-to-r from-teal-700 to-teal-600 text-white p-5">
-
-        <div class="flex items-center justify-between">
-
-          <div>
-            <p class="text-xs text-teal-100 mb-1">
-              ملخص خطتك
-            </p>
-
-            <h2 class="text-xl font-black">
-              أهلاً بك 👋
-            </h2>
-
-            <p class="text-xs text-teal-100 mt-1">
-              ملخص وضعك الحالي في الخطة
-            </p>
-          </div>
-
-          <div class="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center text-3xl">
-            🎯
-          </div>
-
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs text-slate-500 font-bold">إنجاز الخطة</p>
+          <p id="dashboard-progress" class="text-2xl font-black text-teal-700 mt-2">0%</p>
         </div>
 
-      </div>
-
-
-      <div class="p-4">
-
-        <!-- نسبة الإنجاز -->
-
-        <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 mb-4">
-
-          <div class="flex justify-between items-center mb-2">
-
-            <div>
-              <p class="text-xs text-slate-500">
-                إنجاز الخطة
-              </p>
-
-              <p id="dashboard-progress-text" class="text-2xl font-black text-teal-600">
-                0%
-              </p>
-            </div>
-
-            <div class="text-left">
-              <p class="text-xs text-slate-400">
-                المتبقي
-              </p>
-
-              <p id="dashboard-remaining" class="text-lg font-black text-slate-700">
-                0 مهمة
-              </p>
-            </div>
-
-          </div>
-
-          <div class="w-full bg-white border border-slate-200 rounded-full h-3 overflow-hidden">
-
-            <div
-              id="dashboard-progress-bar"
-              class="bg-teal-500 h-full rounded-full transition-all duration-300"
-              style="width:0%"
-            ></div>
-
-          </div>
-
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs text-slate-500 font-bold">المهام المكتملة</p>
+          <p id="dashboard-completed" class="text-2xl font-black text-slate-900 mt-2">0</p>
         </div>
 
-
-        <!-- CARDS -->
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-          <div class="dashboard-card bg-blue-50 border border-blue-100 rounded-xl p-4">
-            <div class="text-xl mb-2">⏳</div>
-
-            <p class="text-[11px] text-blue-700 font-bold">
-              المتبقي لإنهاء الخطة
-            </p>
-
-            <p id="days-plan-remaining" class="text-xl font-black text-blue-800 mt-1">
-              —
-            </p>
-
-            <p class="text-[10px] text-blue-500 mt-1">
-              يوم
-            </p>
-          </div>
-
-
-          <div class="dashboard-card bg-rose-50 border border-rose-100 rounded-xl p-4">
-            <div class="text-xl mb-2">🎯</div>
-
-            <p class="text-[11px] text-rose-700 font-bold">
-              المتبقي على الاختبار
-            </p>
-
-            <p id="days-exam-remaining" class="text-xl font-black text-rose-800 mt-1">
-              —
-            </p>
-
-            <p class="text-[10px] text-rose-500 mt-1">
-              يوم
-            </p>
-          </div>
-
-
-          <div class="dashboard-card bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-            <div class="text-xl mb-2">✅</div>
-
-            <p class="text-[11px] text-emerald-700 font-bold">
-              المهام المكتملة
-            </p>
-
-            <p id="dashboard-completed" class="text-xl font-black text-emerald-800 mt-1">
-              0
-            </p>
-
-            <p class="text-[10px] text-emerald-500 mt-1">
-              مهمة
-            </p>
-          </div>
-
-
-          <div class="dashboard-card bg-indigo-50 border border-indigo-100 rounded-xl p-4">
-            <div class="text-xl mb-2">📚</div>
-
-            <p class="text-[11px] text-indigo-700 font-bold">
-              إجمالي المهام
-            </p>
-
-            <p id="dashboard-total" class="text-xl font-black text-indigo-800 mt-1">
-              0
-            </p>
-
-            <p class="text-[10px] text-indigo-500 mt-1">
-              مهمة
-            </p>
-          </div>
-
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs text-slate-500 font-bold">المتبقي</p>
+          <p id="dashboard-remaining" class="text-2xl font-black text-orange-600 mt-2">0</p>
         </div>
 
-
-        <!-- CURRENT STATUS -->
-
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-
-          <div class="border border-slate-200 rounded-xl p-4 bg-white">
-
-            <div class="flex items-center gap-3">
-
-              <div class="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-xl">
-                📖
-              </div>
-
-              <div>
-
-                <p class="text-[10px] text-slate-400 font-bold">
-                  المرحلة الحالية
-                </p>
-
-                <p id="current-phase" class="text-sm font-black text-slate-800 mt-1">
-                  —
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="border border-slate-200 rounded-xl p-4 bg-white">
-
-            <div class="flex items-center gap-3">
-
-              <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-xl">
-                🧠
-              </div>
-
-              <div>
-
-                <p class="text-[10px] text-slate-400 font-bold">
-                  المادة الحالية
-                </p>
-
-                <p id="current-subject" class="text-sm font-black text-slate-800 mt-1">
-                  —
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs text-slate-500 font-bold">إجمالي المهام</p>
+          <p id="dashboard-total" class="text-2xl font-black text-slate-900 mt-2">0</p>
         </div>
 
-
-        <!-- DATES -->
-
-        <div class="mt-4 bg-slate-50 rounded-xl border border-slate-200 p-4">
-
-          <div class="grid grid-cols-2 gap-4">
-
-            <div>
-              <p class="text-[10px] text-slate-400 font-bold">
-                بداية الخطة
-              </p>
-
-              <p id="dashboard-start-date" class="text-xs font-bold text-slate-700 mt-1">
-                —
-              </p>
-            </div>
+      </section>
 
 
-            <div>
-              <p class="text-[10px] text-slate-400 font-bold">
-                نهاية الخطة
-              </p>
+      <!-- Countdown -->
+      <section class="grid md:grid-cols-2 gap-4">
 
-              <p id="dashboard-plan-end" class="text-xs font-bold text-slate-700 mt-1">
-                —
-              </p>
-            </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
+          <p class="text-sm text-slate-500 font-bold">
+            المتبقي لإنهاء الخطة
+          </p>
 
-            <div>
-              <p class="text-[10px] text-slate-400 font-bold">
-                تاريخ الاختبار
-              </p>
+          <p id="days-to-plan" class="text-3xl font-black text-slate-900 mt-2">
+            -
+          </p>
 
-              <p id="dashboard-exam-date" class="text-xs font-bold text-rose-600 mt-1">
-                غير محدد
-              </p>
-            </div>
-
-
-            <div>
-              <p class="text-[10px] text-slate-400 font-bold">
-                تاريخ اليوم
-              </p>
-
-              <p id="dashboard-today" class="text-xs font-bold text-slate-700 mt-1">
-                —
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================================================= -->
-    <!-- DATES -->
-    <!-- ================================================= -->
-
-    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-
-      <div class="flex items-center gap-2 mb-3">
-
-        <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center">
-          📅
-        </div>
-
-        <div>
-
-          <h2 class="text-sm font-black text-slate-800">
-            تواريخ الخطة
-          </h2>
-
-          <p class="text-[10px] text-slate-400">
-            حدد بداية الخطة وتاريخ الاختبار بنفسك
+          <p id="plan-end-dashboard" class="text-xs text-slate-500 mt-2">
+            -
           </p>
 
         </div>
 
-      </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+
+          <p class="text-sm text-slate-500 font-bold">
+            المتبقي على الاختبار
+          </p>
+
+          <p id="days-to-exam" class="text-3xl font-black text-teal-700 mt-2">
+            -
+          </p>
+
+          <p id="exam-date-dashboard" class="text-xs text-slate-500 mt-2">
+            -
+          </p>
+
+        </div>
+
+      </section>
 
 
-      <div class="grid grid-cols-2 gap-2">
+      <!-- Current Status -->
+      <section class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
-        <div>
+        <div class="p-5 border-b border-slate-100">
 
-          <label class="block text-[10px] font-bold text-slate-500 mb-1">
-            بداية الخطة
-          </label>
+          <h2 class="font-black text-lg">
+            📍 وضعك الحالي
+          </h2>
 
-          <input
-            type="date"
-            id="start-date"
-            class="date-input w-full h-8 bg-white border border-slate-300 rounded-md px-2 text-[11px] font-bold focus:outline-none focus:ring-1 focus:ring-teal-500"
-            onchange="changeStartDate()"
-          >
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 p-5">
+
+          <div>
+            <p class="text-xs text-slate-500 font-bold">
+              المرحلة الحالية
+            </p>
+
+            <p
+              id="dashboard-phase"
+              class="font-black text-slate-900 mt-1"
+            >
+              -
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-xs text-slate-500 font-bold">
+              المادة الحالية
+            </p>
+
+            <p
+              id="dashboard-subject"
+              class="font-black text-slate-900 mt-1"
+            >
+              -
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-xs text-slate-500 font-bold">
+              تاريخ اليوم
+            </p>
+
+            <p
+              id="dashboard-today"
+              class="font-black text-slate-900 mt-1"
+            >
+              -
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-xs text-slate-500 font-bold">
+              بداية الخطة
+            </p>
+
+            <p
+              id="dashboard-start"
+              class="font-black text-slate-900 mt-1"
+            >
+              -
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Dates -->
+      <section class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+
+        <h2 class="font-black text-lg mb-4">
+          📅 تواريخ الخطة
+        </h2>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+
+          <div>
+
+            <label class="block text-sm font-bold mb-2">
+              تاريخ بداية الخطة
+            </label>
+
+            <input
+              type="date"
+              id="start-date"
+              class="date-input w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
+              onchange="changeStartDate()"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label class="block text-sm font-bold mb-2">
+              موعد الاختبار المتوقع
+            </label>
+
+            <input
+              type="date"
+              id="exam-date-input"
+              class="date-input w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
+              onchange="changeExamDate()"
+            >
+
+          </div>
 
         </div>
 
 
-        <div>
+        <div
+          id="plan-summary"
+          class="mt-4 text-sm text-slate-600 leading-7"
+        ></div>
 
-          <label class="block text-[10px] font-bold text-slate-500 mb-1">
-            تاريخ الاختبار
-          </label>
+        <div
+          id="countdown"
+          class="mt-3 bg-teal-50 border border-teal-100 text-teal-800 rounded-xl p-3 font-bold"
+        ></div>
 
-          <input
-            type="date"
-            id="exam-date-input"
-            class="date-input w-full h-8 bg-white border border-slate-300 rounded-md px-2 text-[11px] font-bold focus:outline-none focus:ring-1 focus:ring-teal-500"
-            onchange="changeExamDate()"
-          >
-
-        </div>
-
-      </div>
+      </section>
 
 
-      <div id="plan-summary" class="mt-3 text-[10px] text-slate-400 text-center">
-        —
-      </div>
+      <!-- Reset -->
+      <section class="flex justify-center">
 
+        <button
+          onclick="resetAllProgress()"
+          class="text-sm font-bold text-red-600 border border-red-200 bg-red-50 hover:bg-red-100 px-5 py-2.5 rounded-xl"
+        >
+          إعادة تعيين إنجاز المهام
+        </button>
 
-      <div id="countdown" class="mt-2 text-[11px] font-bold text-teal-600 text-center">
-        —
-      </div>
+      </section>
 
     </section>
 
 
-    <!-- RESET -->
+    <!-- ==================================================
+         PLAN PAGE
+    =================================================== -->
+    <section id="plan-page" class="hidden space-y-6">
 
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-3 items-center justify-between">
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
-      <button
-        onclick="resetAllProgress()"
-        class="text-xs bg-red-50 text-red-600 hover:bg-red-100 font-bold px-3 py-2 rounded-lg transition border border-red-200"
-      >
-        🔄 إعادة ضبط التقدم
-      </button>
+        <h2 class="text-xl font-black">
+          📋 خطة المذاكرة
+        </h2>
 
-      <div class="text-xs text-slate-500">
-        يتم حفظ تقدمك تلقائيًا على هذا الجهاز.
+        <p class="text-sm text-slate-500 mt-2 leading-7">
+          اضغط على مربع الإنجاز بعد إنهاء كل مهمة. سيتم حفظ تقدمك تلقائيًا.
+        </p>
+
       </div>
 
-    </div>
 
+      <!-- PHASE 1 -->
+      <section>
 
-    <!-- ================================================= -->
-    <!-- المرحلة الأولى -->
-    <!-- ================================================= -->
+        <div class="mb-4">
 
-    <div class="space-y-4">
-
-      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-teal-600 pr-2">
-        المرحلة الأولى: الأساسيات والتخصصات
-      </h2>
-
-
-      <!-- MEDICINE -->
-
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-        <div class="bg-teal-600 text-white p-4 flex items-center justify-between">
-
-          <div>
-
-            <h3 class="font-bold text-base">
-              ١. الباطنة — Internal Medicine
-            </h3>
-
-            <p id="date-medicine" class="text-xs text-teal-100 mt-1">
-              —
-            </p>
-
-            <p class="text-xs text-teal-100 mt-1">
-              📚 المصدر: Review Team
-            </p>
-
-          </div>
-
-          <span id="badge-medicine" class="text-xs bg-teal-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
+          <span class="inline-block bg-teal-100 text-teal-800 text-xs font-black px-3 py-1.5 rounded-full">
+            المرحلة الأولى
           </span>
+
+          <h2 class="text-2xl font-black mt-2">
+            المواد الأساسية
+          </h2>
 
         </div>
 
-        <div class="p-4 space-y-3" id="group-medicine"></div>
+
+        <!-- Medicine -->
+        <div
+          id="medicine-section"
+          class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
+        >
+
+          <div class="p-5 bg-teal-50 border-b border-teal-100">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+              <div>
+
+                <h3 class="text-xl font-black">
+                  🩺 الباطنة
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-1">
+                  27 محاضرة خلال 14 يوم
+                </p>
+
+              </div>
+
+
+              <a
+                href="https://t.me/SMLE_medicine"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="source-link inline-flex items-center justify-center gap-2 bg-white border border-teal-200 text-teal-700 px-4 py-2 rounded-xl text-sm font-black"
+              >
+                📚 Review Team ↗
+              </a>
+
+            </div>
+
+          </div>
+
+          <div id="medicine-tasks" class="divide-y divide-slate-100"></div>
+
+        </div>
+
+
+        <!-- Surgery -->
+        <div
+          id="surgery-section"
+          class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
+        >
+
+          <div class="p-5 bg-blue-50 border-b border-blue-100">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+              <div>
+
+                <h3 class="text-xl font-black">
+                  🔪 الجراحة
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-1">
+                  89 صفحة خلال 15 يوم
+                </p>
+
+              </div>
+
+
+              <a
+                href="https://t.me/SurgeryByHamoud"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="source-link inline-flex items-center justify-center gap-2 bg-white border border-blue-200 text-blue-700 px-4 py-2 rounded-xl text-sm font-black"
+              >
+                📚 حمود ↗
+              </a>
+
+            </div>
+
+          </div>
+
+          <div id="surgery-tasks" class="divide-y divide-slate-100"></div>
+
+        </div>
+
+
+        <!-- OBGYN -->
+        <div
+          id="obgyn-section"
+          class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
+        >
+
+          <div class="p-5 bg-pink-50 border-b border-pink-100">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+              <div>
+
+                <h3 class="text-xl font-black">
+                  🤰 النساء والولادة
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-1">
+                  30 موضوع خلال 15 يوم + MG / GB
+                </p>
+
+              </div>
+
+
+              <a
+                href="https://t.me/WafaOBGYN"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="source-link inline-flex items-center justify-center gap-2 bg-white border border-pink-200 text-pink-700 px-4 py-2 rounded-xl text-sm font-black"
+              >
+                📚 وفاء ↗
+              </a>
+
+            </div>
+
+          </div>
+
+          <div id="obgyn-tasks" class="divide-y divide-slate-100"></div>
+
+        </div>
+
+
+        <!-- Pediatrics -->
+        <div
+          id="pediatrics-section"
+          class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
+        >
+
+          <div class="p-5 bg-purple-50 border-b border-purple-100">
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+              <div>
+
+                <h3 class="text-xl font-black">
+                  👶 الأطفال
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-1">
+                  30 موضوع خلال 15 يوم + MG / GB
+                </p>
+
+              </div>
+
+
+              <a
+                href="https://t.me/smlepaediatrics"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="source-link inline-flex items-center justify-center gap-2 bg-white border border-purple-200 text-purple-700 px-4 py-2 rounded-xl text-sm font-black"
+              >
+                📚 مهدي ↗
+              </a>
+
+            </div>
+
+          </div>
+
+          <div id="pediatrics-tasks" class="divide-y divide-slate-100"></div>
+
+        </div>
 
       </section>
 
 
-      <!-- SURGERY -->
+      <!-- PHASE 2 -->
+      <section>
 
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="mb-4">
 
-        <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
+          <span class="inline-block bg-orange-100 text-orange-800 text-xs font-black px-3 py-1.5 rounded-full">
+            الشهر الثالث
+          </span>
 
-          <div>
+          <h2 class="text-2xl font-black mt-2">
+            التجميع والتثبيت
+          </h2>
 
-            <h3 class="font-bold text-base">
-              ٢. الجراحة — Surgery
+          <p class="text-sm text-slate-500 mt-1">
+            MG / GB + 200 Anki يوميًا
+          </p>
+
+        </div>
+
+
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+          <div class="p-5 bg-orange-50 border-b border-orange-100">
+
+            <h3 class="text-xl font-black">
+              🧠 مراجعة وتثبيت
             </h3>
 
-            <p id="date-surgery" class="text-xs text-blue-100 mt-1">
-              —
-            </p>
-
-            <p class="text-xs text-blue-100 mt-1">
-              📚 المصدر: ملف حمود
+            <p class="text-sm text-slate-500 mt-1">
+              مهمتان يوميًا: MG / GB + 200 Anki
             </p>
 
           </div>
 
-          <span id="badge-surgery" class="text-xs bg-blue-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
-          </span>
+          <div
+            id="consolidation-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
-
-        <div class="p-4 space-y-3" id="group-surgery"></div>
 
       </section>
 
 
-      <!-- OB/GYN -->
+      <!-- PHASE 3 -->
+      <section>
 
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="mb-4">
 
-        <div class="bg-purple-600 text-white p-4 flex items-center justify-between">
+          <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-black px-3 py-1.5 rounded-full">
+            الشهر الرابع
+          </span>
 
-          <div>
+          <h2 class="text-2xl font-black mt-2">
+            التجميعات ومراجعة الأخطاء
+          </h2>
 
-            <h3 class="font-bold text-base">
-              ٣. النساء والولادة — OB/GYN
+        </div>
+
+
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+          <div class="p-5 bg-indigo-50 border-b border-indigo-100">
+
+            <h3 class="text-xl font-black">
+              📝 تجميعات + مراجعة الأخطاء
             </h3>
 
-            <p id="date-obgyn" class="text-xs text-purple-100 mt-1">
-              —
-            </p>
-
-            <p class="text-xs text-purple-100 mt-1">
-              📚 المصدر: ملف وفاء
+            <p class="text-sm text-slate-500 mt-1">
+              مهمة يومية خلال الشهر الرابع
             </p>
 
           </div>
 
-          <span id="badge-obgyn" class="text-xs bg-purple-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
-          </span>
+          <div
+            id="simulations-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
-
-        <div class="p-4 space-y-3" id="group-obgyn"></div>
 
       </section>
 
+    </section>
 
-      <!-- PEDIATRICS -->
 
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <!-- ==================================================
+         SOURCES PAGE
+    =================================================== -->
+    <section id="sources-page" class="hidden space-y-6">
 
-        <div class="bg-amber-600 text-white p-4 flex items-center justify-between">
+      <div class="bg-gradient-to-l from-slate-900 to-slate-800 text-white rounded-3xl p-6 shadow-sm">
 
-          <div>
+        <p class="text-slate-300 text-sm font-bold mb-2">
+          📚 مكتبة المصادر
+        </p>
 
-            <h3 class="font-bold text-base">
-              ٤. الأطفال — Pediatrics
-            </h3>
+        <h2 class="text-2xl sm:text-3xl font-black">
+          مصادر الخطة
+        </h2>
 
-            <p id="date-pediatrics" class="text-xs text-amber-100 mt-1">
-              —
-            </p>
+        <p class="text-slate-300 text-sm mt-2 leading-7">
+          جميع المصادر المستخدمة في الخطة مرتبة حسب المادة.
+        </p>
 
-            <p class="text-xs text-amber-100 mt-1">
-              📚 المصدر: ملف مهدي
-            </p>
+      </div>
+
+
+      <div class="grid sm:grid-cols-2 gap-4">
+
+
+        <!-- Review Team -->
+        <a
+          href="https://t.me/SMLE_medicine"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition block"
+        >
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="text-3xl mb-3">
+                🩺
+              </div>
+
+              <h3 class="font-black text-lg">
+                Review Team
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                مصدر الباطنة
+              </p>
+
+            </div>
+
+            <span class="text-teal-600 font-black">
+              ↗
+            </span>
 
           </div>
 
-          <span id="badge-pediatrics" class="text-xs bg-amber-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
-          </span>
+          <p class="text-xs text-slate-400 mt-4">
+            Telegram
+          </p>
+
+        </a>
+
+
+        <!-- Wafa -->
+        <a
+          href="https://t.me/WafaOBGYN"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition block"
+        >
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="text-3xl mb-3">
+                🤰
+              </div>
+
+              <h3 class="font-black text-lg">
+                وفاء
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                مصدر النساء والولادة
+              </p>
+
+            </div>
+
+            <span class="text-pink-600 font-black">
+              ↗
+            </span>
+
+          </div>
+
+          <p class="text-xs text-slate-400 mt-4">
+            Telegram
+          </p>
+
+        </a>
+
+
+        <!-- Hamoud -->
+        <a
+          href="https://t.me/SurgeryByHamoud"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition block"
+        >
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="text-3xl mb-3">
+                🔪
+              </div>
+
+              <h3 class="font-black text-lg">
+                حمود
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                مصدر الجراحة
+              </p>
+
+            </div>
+
+            <span class="text-blue-600 font-black">
+              ↗
+            </span>
+
+          </div>
+
+          <p class="text-xs text-slate-400 mt-4">
+            Telegram
+          </p>
+
+        </a>
+
+
+        <!-- Mahdi -->
+        <a
+          href="https://t.me/smlepaediatrics"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition block"
+        >
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="text-3xl mb-3">
+                👶
+              </div>
+
+              <h3 class="font-black text-lg">
+                مهدي
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                مصدر الأطفال
+              </p>
+
+            </div>
+
+            <span class="text-purple-600 font-black">
+              ↗
+            </span>
+
+          </div>
+
+          <p class="text-xs text-slate-400 mt-4">
+            Telegram
+          </p>
+
+        </a>
+
+      </div>
+
+
+      <!-- Quick Links -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+
+        <h3 class="font-black text-lg mb-4">
+          🔗 الوصول السريع
+        </h3>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+
+          <button
+            onclick="goToSection('medicine-section')"
+            class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
+          >
+            🩺 الانتقال إلى الباطنة
+          </button>
+
+          <button
+            onclick="goToSection('surgery-section')"
+            class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
+          >
+            🔪 الانتقال إلى الجراحة
+          </button>
+
+          <button
+            onclick="goToSection('obgyn-section')"
+            class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
+          >
+            🤰 الانتقال إلى النساء والولادة
+          </button>
+
+          <button
+            onclick="goToSection('pediatrics-section')"
+            class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
+          >
+            👶 الانتقال إلى الأطفال
+          </button>
 
         </div>
 
-        <div class="p-4 space-y-3" id="group-pediatrics"></div>
+      </div>
 
-      </section>
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- MONTH 3 -->
-    <!-- ================================================= -->
-
-    <div class="space-y-4 pt-4">
-
-      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-indigo-600 pr-2">
-        المرحلة الثانية: التثبيت والدراسة المركزة
-      </h2>
-
-
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-        <div class="bg-indigo-600 text-white p-4 flex items-center justify-between">
-
-          <div>
-
-            <h3 class="font-bold text-base">
-              الشهر الثالث — MG / GB + Anki
-            </h3>
-
-            <p id="date-consolidation" class="text-xs text-indigo-100 mt-1">
-              —
-            </p>
-
-            <p class="text-xs text-indigo-100 mt-1">
-              📌 يوميًا: MG / GB + 200 Anki
-            </p>
-
-          </div>
-
-          <span id="badge-consolidation" class="text-xs bg-indigo-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
-          </span>
-
-        </div>
-
-
-        <div class="grid grid-cols-2 gap-3 p-4 bg-indigo-50 border-b border-indigo-100">
-
-          <div class="bg-white rounded-lg p-3 text-center border border-indigo-100">
-
-            <p class="text-xs text-slate-500">
-              Anki يوميًا
-            </p>
-
-            <p class="font-black text-indigo-600 text-lg">
-              200
-            </p>
-
-            <p class="text-[10px] text-slate-400">
-              بطاقة يوميًا
-            </p>
-
-          </div>
-
-
-          <div class="bg-white rounded-lg p-3 text-center border border-indigo-100">
-
-            <p class="text-xs text-slate-500">
-              MG / GB
-            </p>
-
-            <p class="font-black text-indigo-600 text-lg">
-              يومي
-            </p>
-
-            <p class="text-[10px] text-slate-400">
-              Checklist مستقل
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="p-4 space-y-3" id="group-consolidation"></div>
-
-      </section>
-
-    </div>
-
-
-    <!-- ================================================= -->
-    <!-- MONTH 4 -->
-    <!-- ================================================= -->
-
-    <div class="space-y-4 pt-4">
-
-      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-rose-600 pr-2">
-        المرحلة الثالثة: بنوك الأسئلة والمحاكاة
-      </h2>
-
-
-      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-
-        <div class="bg-rose-600 text-white p-4 flex items-center justify-between">
-
-          <div>
-
-            <h3 class="font-bold text-base">
-              الشهر الرابع — التجميعات
-            </h3>
-
-            <p id="date-simulations" class="text-xs text-rose-100 mt-1">
-              —
-            </p>
-
-            <p class="text-xs text-rose-100 mt-1">
-              📌 تجميعات يومية + مراجعة الأخطاء
-            </p>
-
-          </div>
-
-          <span id="badge-simulations" class="text-xs bg-rose-800/60 px-2.5 py-1 rounded-full font-bold">
-            0%
-          </span>
-
-        </div>
-
-        <div class="p-4 space-y-3" id="group-simulations"></div>
-
-      </section>
-
-    </div>
+    </section>
 
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- Footer -->
+  <footer class="max-w-5xl mx-auto px-4 mt-10 text-center">
 
-  <footer class="text-center mt-10 pb-4">
-
-    <p class="text-[10px] text-slate-400 font-medium">
+    <p class="text-xs text-slate-400">
       جميع الحقوق محفوظة لفراس © 2026
     </p>
 
@@ -751,8 +939,17 @@
 
   <script>
 
+    /* ==========================================
+       STORAGE
+    ========================================== */
+
     const STORAGE_START_DATE = "exam_plan_start_date";
     const STORAGE_EXAM_DATE = "exam_plan_exam_date";
+
+
+    /* ==========================================
+       TASK DATA
+    ========================================== */
 
     const tasksData = {
       medicine: [],
@@ -764,13 +961,43 @@
     };
 
 
+    /* ==========================================
+       DATE FUNCTIONS
+    ========================================== */
+
+    function parseLocalDate(value) {
+
+      if (!value) return null;
+
+      const parts = value.split("-");
+
+      if (parts.length !== 3) return null;
+
+      return new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+      );
+    }
+
+
+    function dateToInputValue(date) {
+
+      const y = date.getFullYear();
+
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+
+      const d = String(date.getDate()).padStart(2, "0");
+
+      return `${y}-${m}-${d}`;
+    }
+
+
     function addDays(date, days) {
 
       const result = new Date(date);
 
-      result.setDate(
-        result.getDate() + days
-      );
+      result.setDate(result.getDate() + days);
 
       return result;
     }
@@ -780,15 +1007,19 @@
 
       const result = new Date(date);
 
-      const day = result.getDate();
+      const originalDay = result.getDate();
 
-      result.setMonth(
-        result.getMonth() + months
-      );
+      result.setDate(1);
 
-      if (result.getDate() !== day) {
-        result.setDate(0);
-      }
+      result.setMonth(result.getMonth() + months);
+
+      const lastDay = new Date(
+        result.getFullYear(),
+        result.getMonth() + 1,
+        0
+      ).getDate();
+
+      result.setDate(Math.min(originalDay, lastDay));
 
       return result;
     }
@@ -796,7 +1027,7 @@
 
     function formatDate(date) {
 
-      if (!date) return "—";
+      if (!date) return "-";
 
       return new Intl.DateTimeFormat(
         "en-GB",
@@ -812,578 +1043,810 @@
 
     function getToday() {
 
-      const today = new Date();
+      const now = new Date();
 
-      today.setHours(0, 0, 0, 0);
-
-      return today;
+      return new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
     }
 
 
     function getStartDate() {
 
-      const saved = localStorage.getItem(
-        STORAGE_START_DATE
-      );
+      const saved = localStorage.getItem(STORAGE_START_DATE);
 
-      if (!saved) return null;
+      if (saved) {
 
-      return new Date(
-        saved + "T00:00:00"
-      );
+        const parsed = parseLocalDate(saved);
+
+        if (parsed) return parsed;
+
+      }
+
+      return getToday();
     }
 
 
     function getExamDate() {
 
-      const saved = localStorage.getItem(
-        STORAGE_EXAM_DATE
-      );
+      const saved = localStorage.getItem(STORAGE_EXAM_DATE);
 
       if (!saved) return null;
 
-      return new Date(
-        saved + "T00:00:00"
-      );
+      return parseLocalDate(saved);
     }
 
 
+    /* ==========================================
+       BUILD PLAN
+    ========================================== */
+
     function buildPlan() {
+
+      Object.keys(tasksData).forEach(key => {
+        tasksData[key] = [];
+      });
+
 
       const startDate = getStartDate();
 
-      if (!startDate) return;
 
+      /* ---------------------------
+         MEDICINE
+      ---------------------------- */
 
-      /* الباطنة */
+      for (let i = 0; i < 14; i++) {
 
-      const medicineStart = startDate;
-
-      const medicineEnd = addDays(
-        medicineStart,
-        13
-      );
-
-
-      /* الجراحة */
-
-      const surgeryStart = addDays(
-        medicineEnd,
-        1
-      );
-
-      const surgeryEnd = addDays(
-        surgeryStart,
-        14
-      );
-
-
-      /* النساء والولادة */
-
-      const obgynStart = addDays(
-        surgeryEnd,
-        1
-      );
-
-      const obgynEnd = addDays(
-        obgynStart,
-        14
-      );
-
-
-      /* الأطفال */
-
-      const pediatricsStart = addDays(
-        obgynEnd,
-        1
-      );
-
-      const pediatricsEnd = addDays(
-        pediatricsStart,
-        14
-      );
-
-
-      /* الشهر الثالث */
-
-      const consolidationStart = addDays(
-        pediatricsEnd,
-        1
-      );
-
-      const consolidationEnd = addMonths(
-        consolidationStart,
-        1
-      );
-
-      consolidationEnd.setDate(
-        consolidationEnd.getDate() - 1
-      );
-
-
-      /* الشهر الرابع */
-
-      const simulationsStart = addDays(
-        consolidationEnd,
-        1
-      );
-
-      const simulationsEnd = addMonths(
-        simulationsStart,
-        1
-      );
-
-      simulationsEnd.setDate(
-        simulationsEnd.getDate() - 1
-      );
-
-
-      /* Medicine */
-
-      tasksData.medicine = [];
-
-      for (let i = 1; i <= 14; i++) {
+        const date = addDays(startDate, i);
 
         tasksData.medicine.push({
-
-          id: `med_${i}`,
-
-          label:
-            i === 14
-              ? `اليوم ${i} — محاضرة واحدة`
-              : `اليوم ${i} — محاضرتان`,
-
-          date: addDays(
-            medicineStart,
-            i - 1
-          )
-
+          id: `medicine_${i + 1}`,
+          date,
+          label: `اليوم ${i + 1} — الباطنة`,
+          type: "medicine"
         });
 
       }
 
 
-      /* Surgery */
+      /* ---------------------------
+         SURGERY
+      ---------------------------- */
 
-      tasksData.surgery = [];
+      const surgeryStart = addDays(startDate, 14);
 
-      for (let i = 1; i <= 15; i++) {
+      for (let i = 0; i < 15; i++) {
+
+        const date = addDays(surgeryStart, i);
 
         tasksData.surgery.push({
-
-          id: `surg_${i}`,
-
-          label:
-            i === 15
-              ? `اليوم ${i} — ٥ صفحات`
-              : `اليوم ${i} — ٦ صفحات`,
-
-          date: addDays(
-            surgeryStart,
-            i - 1
-          )
-
+          id: `surgery_${i + 1}`,
+          date,
+          label: `اليوم ${i + 1} — الجراحة`,
+          type: "surgery"
         });
 
       }
 
 
-      /* OB/GYN */
+      /* ---------------------------
+         OBGYN
+      ---------------------------- */
 
-      tasksData.obgyn = [];
+      const obgynStart = addDays(startDate, 29);
 
-      for (let i = 1; i <= 15; i++) {
+      for (let i = 0; i < 15; i++) {
+
+        const date = addDays(obgynStart, i);
 
         tasksData.obgyn.push({
-
-          id: `ob_${i}`,
-
-          label:
-            `اليوم ${i} — 2 Topics + MG/GB`,
-
-          date: addDays(
-            obgynStart,
-            i - 1
-          )
-
+          id: `obgyn_${i + 1}`,
+          date,
+          label: `اليوم ${i + 1} — 2 Topics + MG / GB`,
+          type: "obgyn"
         });
 
       }
 
 
-      /* Pediatrics */
+      /* ---------------------------
+         PEDIATRICS
+      ---------------------------- */
 
-      tasksData.pediatrics = [];
+      const pediatricsStart = addDays(startDate, 44);
 
-      for (let i = 1; i <= 15; i++) {
+      for (let i = 0; i < 15; i++) {
+
+        const date = addDays(pediatricsStart, i);
 
         tasksData.pediatrics.push({
-
-          id: `ped_${i}`,
-
-          label:
-            `اليوم ${i} — 2 Topics + MG/GB`,
-
-          date: addDays(
-            pediatricsStart,
-            i - 1
-          )
-
+          id: `pediatrics_${i + 1}`,
+          date,
+          label: `اليوم ${i + 1} — 2 Topics + MG / GB`,
+          type: "pediatrics"
         });
 
       }
 
 
-      /* MONTH 3 */
+      /* ---------------------------
+         MONTH 3
+         MG / GB + 200 ANKI EVERY DAY
+      ---------------------------- */
 
-      tasksData.consolidation = [];
+      const consolidationStart = addMonths(startDate, 2);
 
-      let currentDate = new Date(
-        consolidationStart
-      );
+      const consolidationEnd = addMonths(startDate, 3);
+
+      let currentDate = new Date(consolidationStart);
 
       let dayNumber = 1;
 
-
-      while (
-        currentDate <= consolidationEnd
-      ) {
+      while (currentDate < consolidationEnd) {
 
         tasksData.consolidation.push({
-
-          id:
-            `con_mg_${dayNumber}`,
-
-          label:
-            `اليوم ${dayNumber} — MG / GB`,
-
-          date:
-            new Date(currentDate),
-
-          type:
-            "MG/GB"
-
+          id: `con_mg_${dayNumber}`,
+          date: new Date(currentDate),
+          label: `اليوم ${dayNumber} — MG / GB`,
+          type: "consolidation"
         });
 
 
         tasksData.consolidation.push({
-
-          id:
-            `con_anki_${dayNumber}`,
-
-          label:
-            `اليوم ${dayNumber} — 200 Anki`,
-
-          date:
-            new Date(currentDate),
-
-          type:
-            "Anki"
-
+          id: `con_anki_${dayNumber}`,
+          date: new Date(currentDate),
+          label: `اليوم ${dayNumber} — 200 Anki`,
+          type: "consolidation"
         });
 
 
-        currentDate = addDays(
-          currentDate,
-          1
-        );
+        currentDate = addDays(currentDate, 1);
 
         dayNumber++;
 
       }
 
 
-      /* MONTH 4 */
+      /* ---------------------------
+         MONTH 4
+         SIMULATIONS
+      ---------------------------- */
 
-      tasksData.simulations = [];
+      const simulationsStart = addMonths(startDate, 3);
 
-      currentDate = new Date(
-        simulationsStart
-      );
+      const simulationsEnd = addMonths(startDate, 4);
+
+      currentDate = new Date(simulationsStart);
 
       dayNumber = 1;
 
-
-      while (
-        currentDate <= simulationsEnd
-      ) {
+      while (currentDate < simulationsEnd) {
 
         tasksData.simulations.push({
-
-          id:
-            `sim_${dayNumber}`,
-
-          label:
-            `اليوم ${dayNumber} — تجميعات + مراجعة الأخطاء`,
-
-          date:
-            new Date(currentDate)
-
+          id: `simulation_${dayNumber}`,
+          date: new Date(currentDate),
+          label: `اليوم ${dayNumber} — تجميعات + مراجعة الأخطاء`,
+          type: "simulations"
         });
 
-
-        currentDate = addDays(
-          currentDate,
-          1
-        );
+        currentDate = addDays(currentDate, 1);
 
         dayNumber++;
 
       }
 
-
-      /* Dates */
-
-      document.getElementById(
-        "date-medicine"
-      ).innerText =
-        `📅 ${formatDate(medicineStart)} – ${formatDate(medicineEnd)} | ٢٧ محاضرة | Review Team`;
+    }
 
 
-      document.getElementById(
-        "date-surgery"
-      ).innerText =
-        `📅 ${formatDate(surgeryStart)} – ${formatDate(surgeryEnd)} | ٨٩ صفحة | ملف حمود`;
+    /* ==========================================
+       RENDER TASKS
+    ========================================== */
+
+    function renderTaskList(containerId, tasks) {
+
+      const container = document.getElementById(containerId);
+
+      if (!container) return;
+
+      container.innerHTML = "";
 
 
-      document.getElementById(
-        "date-obgyn"
-      ).innerText =
-        `📅 ${formatDate(obgynStart)} – ${formatDate(obgynEnd)} | ٣٠ Topic | ملف وفاء`;
+      tasks.forEach(task => {
+
+        const checked =
+          localStorage.getItem(task.id) === "true";
 
 
-      document.getElementById(
-        "date-pediatrics"
-      ).innerText =
-        `📅 ${formatDate(pediatricsStart)} – ${formatDate(pediatricsEnd)} | ٣٠ Topic | ملف مهدي`;
+        const wrapper = document.createElement("div");
+
+        wrapper.className =
+          "flex items-center gap-3 p-4 hover:bg-slate-50 transition";
 
 
-      document.getElementById(
-        "date-consolidation"
-      ).innerText =
-        `📅 ${formatDate(consolidationStart)} – ${formatDate(consolidationEnd)}`;
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+
+        checkbox.id = task.id;
+
+        checkbox.checked = checked;
+
+        checkbox.className =
+          "custom-checkbox appearance-none w-5 h-5 shrink-0 rounded-md border-2 border-slate-300 cursor-pointer";
 
 
-      document.getElementById(
-        "date-simulations"
-      ).innerText =
-        `📅 ${formatDate(simulationsStart)} – ${formatDate(simulationsEnd)}`;
+        checkbox.onclick = () => toggleTask(task.id);
+
+
+        const content = document.createElement("div");
+
+        content.className = "flex-1 min-w-0";
+
+
+        const label = document.createElement("label");
+
+        label.htmlFor = task.id;
+
+        label.className =
+          "block font-bold cursor-pointer text-sm sm:text-base";
+
+
+        label.textContent = task.label;
+
+
+        const date = document.createElement("p");
+
+        date.className =
+          "text-xs text-slate-400 mt-1";
+
+
+        date.textContent =
+          formatDate(task.date);
+
+
+        content.appendChild(label);
+
+        content.appendChild(date);
+
+
+        wrapper.appendChild(checkbox);
+
+        wrapper.appendChild(content);
+
+
+        container.appendChild(wrapper);
+
+      });
 
     }
 
 
     function renderTasks() {
 
-      Object.keys(tasksData).forEach(
-        groupKey => {
-
-          const container =
-            document.getElementById(
-              `group-${groupKey}`
-            );
-
-          if (!container) return;
+      renderTaskList(
+        "medicine-tasks",
+        tasksData.medicine
+      );
 
 
-          container.innerHTML =
-            tasksData[groupKey]
-              .map(task => {
-
-                const checked =
-                  localStorage.getItem(
-                    task.id
-                  ) === "true";
+      renderTaskList(
+        "surgery-tasks",
+        tasksData.surgery
+      );
 
 
-                let icon = "📚";
+      renderTaskList(
+        "obgyn-tasks",
+        tasksData.obgyn
+      );
 
 
-                if (task.type === "MG/GB") {
-                  icon = "🧠";
-                }
-
-                if (task.type === "Anki") {
-                  icon = "🃏";
-                }
-
-                if (groupKey === "simulations") {
-                  icon = "🎯";
-                }
+      renderTaskList(
+        "pediatrics-tasks",
+        tasksData.pediatrics
+      );
 
 
-                return `
+      renderTaskList(
+        "consolidation-tasks",
+        tasksData.consolidation
+      );
 
-                  <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 border border-slate-100 transition">
 
-                    <input
-                      type="checkbox"
-                      id="${task.id}"
-                      ${checked ? "checked" : ""}
-                      onchange="toggleTask('${task.id}')"
-                      class="custom-checkbox w-5 h-5 rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer shrink-0"
-                    >
-
-                    <label
-                      for="${task.id}"
-                      class="text-sm font-medium text-slate-700 cursor-pointer select-none flex-1"
-                    >
-
-                      <div class="flex items-center gap-2">
-
-                        <span>${icon}</span>
-
-                        <span>${task.label}</span>
-
-                      </div>
-
-                      <div class="task-date text-[10px] text-slate-400 mt-1">
-                        📅 ${formatDate(task.date)}
-                      </div>
-
-                    </label>
-
-                  </div>
-
-                `;
-
-              })
-              .join("");
-
-        }
+      renderTaskList(
+        "simulations-tasks",
+        tasksData.simulations
       );
 
     }
 
 
+    /* ==========================================
+       TASK TOGGLE
+    ========================================== */
+
     function toggleTask(id) {
 
-      const checkbox =
-        document.getElementById(id);
-
-      if (!checkbox) return;
+      const checkbox = document.getElementById(id);
 
       localStorage.setItem(
         id,
-        checkbox.checked
+        checkbox.checked ? "true" : "false"
       );
 
-      updateProgressUI();
+      updateAll();
+
+    }
+
+
+    /* ==========================================
+       PROGRESS
+    ========================================== */
+
+    function getAllTasks() {
+
+      return [
+        ...tasksData.medicine,
+        ...tasksData.surgery,
+        ...tasksData.obgyn,
+        ...tasksData.pediatrics,
+        ...tasksData.consolidation,
+        ...tasksData.simulations
+      ];
+
+    }
+
+
+    function getProgress() {
+
+      const allTasks = getAllTasks();
+
+      const total = allTasks.length;
+
+      const completed = allTasks.filter(
+        task => localStorage.getItem(task.id) === "true"
+      ).length;
+
+
+      const percentage =
+        total === 0
+          ? 0
+          : Math.round((completed / total) * 100);
+
+
+      return {
+        total,
+        completed,
+        remaining: total - completed,
+        percentage
+      };
 
     }
 
 
     function updateProgressUI() {
 
-      let totalTasks = 0;
-      let completedTasks = 0;
-
-
-      Object.keys(tasksData).forEach(
-        groupKey => {
-
-          const list =
-            tasksData[groupKey];
-
-          let groupCompleted = 0;
-
-
-          list.forEach(task => {
-
-            totalTasks++;
-
-
-            if (
-              localStorage.getItem(
-                task.id
-              ) === "true"
-            ) {
-
-              completedTasks++;
-              groupCompleted++;
-
-            }
-
-          });
-
-
-          const percentage =
-            list.length
-              ? Math.round(
-                  (
-                    groupCompleted /
-                    list.length
-                  ) * 100
-                )
-              : 0;
-
-
-          const badge =
-            document.getElementById(
-              `badge-${groupKey}`
-            );
-
-
-          if (badge) {
-            badge.innerText =
-              `${percentage}%`;
-          }
-
-        }
-      );
-
-
-      const overallPercentage =
-        totalTasks
-          ? Math.round(
-              (
-                completedTasks /
-                totalTasks
-              ) * 100
-            )
-          : 0;
+      const progress = getProgress();
 
 
       document.getElementById(
-        "overall-percentage"
-      ).innerText =
-        `${overallPercentage}%`;
+        "header-progress-text"
+      ).textContent =
+        `${progress.percentage}%`;
 
 
       document.getElementById(
-        "overall-progress-bar"
+        "header-progress-bar"
       ).style.width =
-        `${overallPercentage}%`;
+        `${progress.percentage}%`;
 
 
       document.getElementById(
-        "completed-count"
-      ).innerText =
-        completedTasks;
+        "mobile-progress-text"
+      ).textContent =
+        `${progress.percentage}%`;
 
 
       document.getElementById(
-        "remaining-count"
-      ).innerText =
-        totalTasks - completedTasks;
+        "mobile-progress-bar"
+      ).style.width =
+        `${progress.percentage}%`;
 
 
       document.getElementById(
-        "total-count"
-      ).innerText =
-        totalTasks;
+        "dashboard-progress"
+      ).textContent =
+        `${progress.percentage}%`;
 
 
-      updateDashboard();
+      document.getElementById(
+        "dashboard-completed"
+      ).textContent =
+        progress.completed;
+
+
+      document.getElementById(
+        "dashboard-remaining"
+      ).textContent =
+        progress.remaining;
+
+
+      document.getElementById(
+        "dashboard-total"
+      ).textContent =
+        progress.total;
 
     }
 
 
+    /* ==========================================
+       PLAN SUMMARY
+    ========================================== */
+
+    function getPlanEndDate() {
+
+      const allTasks = getAllTasks();
+
+      if (!allTasks.length) return null;
+
+      return allTasks[allTasks.length - 1].date;
+
+    }
+
+
+    function updatePlanSummary() {
+
+      const startDate = getStartDate();
+
+      const planEnd = getPlanEndDate();
+
+      const examDate = getExamDate();
+
+
+      document.getElementById(
+        "dashboard-start"
+      ).textContent =
+        formatDate(startDate);
+
+
+      document.getElementById(
+        "plan-end-dashboard"
+      ).textContent =
+        planEnd
+          ? `نهاية الخطة: ${formatDate(planEnd)}`
+          : "-";
+
+
+      document.getElementById(
+        "exam-date-dashboard"
+      ).textContent =
+        examDate
+          ? `موعد الاختبار: ${formatDate(examDate)}`
+          : "لم يتم تحديد موعد الاختبار";
+
+
+      document.getElementById(
+        "dashboard-today"
+      ).textContent =
+        formatDate(getToday());
+
+
+      document.getElementById(
+        "plan-summary"
+      ).innerHTML = `
+        <div>
+          <strong>بداية الخطة:</strong>
+          ${formatDate(startDate)}
+        </div>
+
+        <div>
+          <strong>نهاية الخطة:</strong>
+          ${formatDate(planEnd)}
+        </div>
+
+        <div>
+          <strong>مدة الخطة:</strong>
+          4 أشهر تقريبًا
+        </div>
+      `;
+
+    }
+
+
+    /* ==========================================
+       COUNTDOWN
+    ========================================== */
+
+    function updateCountdown() {
+
+      const today = getToday();
+
+      const planEnd = getPlanEndDate();
+
+      const examDate = getExamDate();
+
+
+      /* Plan countdown */
+
+      if (planEnd) {
+
+        const diff =
+          Math.round(
+            (planEnd - today) /
+            (1000 * 60 * 60 * 24)
+          );
+
+
+        let text = "";
+
+
+        if (diff > 0) {
+
+          text =
+            `باقي ${diff} يوم على نهاية الخطة`;
+
+        } else if (diff === 0) {
+
+          text =
+            `اليوم هو آخر يوم في الخطة 🎯`;
+
+        } else {
+
+          text =
+            `انتهت الخطة منذ ${Math.abs(diff)} يوم`;
+
+        }
+
+
+        document.getElementById(
+          "days-to-plan"
+        ).textContent = text;
+
+      }
+
+
+      /* Exam countdown */
+
+      if (!examDate) {
+
+        document.getElementById(
+          "days-to-exam"
+        ).textContent =
+          "حدد موعد الاختبار";
+
+        document.getElementById(
+          "countdown"
+        ).textContent =
+          "حدد موعد الاختبار من الأعلى لعرض العد التنازلي.";
+
+        return;
+
+      }
+
+
+      const examDiff =
+        Math.round(
+          (examDate - today) /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      if (examDiff > 0) {
+
+        document.getElementById(
+          "days-to-exam"
+        ).textContent =
+          `${examDiff} يوم`;
+
+
+        document.getElementById(
+          "countdown"
+        ).textContent =
+          `⏳ باقي على الاختبار ${examDiff} يوم`;
+
+      }
+
+      else if (examDiff === 0) {
+
+        document.getElementById(
+          "days-to-exam"
+        ).textContent =
+          "اليوم 🎯";
+
+
+        document.getElementById(
+          "countdown"
+        ).textContent =
+          "🎯 الاختبار اليوم — بالتوفيق!";
+
+      }
+
+      else {
+
+        document.getElementById(
+          "days-to-exam"
+        ).textContent =
+          `انتهى منذ ${Math.abs(examDiff)} يوم`;
+
+
+        document.getElementById(
+          "countdown"
+        ).textContent =
+          `انتهى موعد الاختبار منذ ${Math.abs(examDiff)} يوم`;
+
+      }
+
+    }
+
+
+    /* ==========================================
+       CURRENT PHASE
+    ========================================== */
+
+    function getCurrentPhase() {
+
+      const today = getToday();
+
+      const start = getStartDate();
+
+
+      const medicineStart = start;
+
+      const medicineEnd = addDays(start, 13);
+
+
+      const surgeryStart = addDays(start, 14);
+
+      const surgeryEnd = addDays(start, 28);
+
+
+      const obgynStart = addDays(start, 29);
+
+      const obgynEnd = addDays(start, 43);
+
+
+      const pediatricsStart = addDays(start, 44);
+
+      const pediatricsEnd = addDays(start, 58);
+
+
+      const consolidationStart = addMonths(start, 2);
+
+      const consolidationEnd = addMonths(start, 3);
+
+
+      const simulationsStart = addMonths(start, 3);
+
+      const simulationsEnd = addMonths(start, 4);
+
+
+      if (today >= medicineStart && today <= medicineEnd) {
+
+        return {
+          phase: "المرحلة الأولى",
+          subject: "الباطنة — Review Team"
+        };
+
+      }
+
+
+      if (today >= surgeryStart && today <= surgeryEnd) {
+
+        return {
+          phase: "المرحلة الأولى",
+          subject: "الجراحة — حمود"
+        };
+
+      }
+
+
+      if (today >= obgynStart && today <= obgynEnd) {
+
+        return {
+          phase: "المرحلة الأولى",
+          subject: "النساء والولادة — وفاء"
+        };
+
+      }
+
+
+      if (today >= pediatricsStart && today <= pediatricsEnd) {
+
+        return {
+          phase: "المرحلة الأولى",
+          subject: "الأطفال — مهدي"
+        };
+
+      }
+
+
+      if (
+        today >= consolidationStart &&
+        today < consolidationEnd
+      ) {
+
+        return {
+          phase: "الشهر الثالث",
+          subject: "MG / GB + 200 Anki يوميًا"
+        };
+
+      }
+
+
+      if (
+        today >= simulationsStart &&
+        today < simulationsEnd
+      ) {
+
+        return {
+          phase: "الشهر الرابع",
+          subject: "تجميعات + مراجعة الأخطاء"
+        };
+
+      }
+
+
+      const allTasks = getAllTasks();
+
+      const completed =
+        allTasks.length > 0 &&
+        allTasks.every(
+          task =>
+            localStorage.getItem(task.id) === "true"
+        );
+
+
+      if (completed) {
+
+        return {
+          phase: "الخطة مكتملة 🎉",
+          subject: "أحسنت!"
+        };
+
+      }
+
+
+      return {
+        phase: "قبل بداية الخطة",
+        subject: "جاهز للبدء"
+      };
+
+    }
+
+
+    /* ==========================================
+       DASHBOARD
+    ========================================== */
+
+    function updateDashboard() {
+
+      const current = getCurrentPhase();
+
+
+      document.getElementById(
+        "dashboard-phase"
+      ).textContent =
+        current.phase;
+
+
+      document.getElementById(
+        "dashboard-subject"
+      ).textContent =
+        current.subject;
+
+    }
+
+
+    /* ==========================================
+       DATE CHANGES
+    ========================================== */
+
     function changeStartDate() {
 
       const input =
-        document.getElementById(
-          "start-date"
-        );
+        document.getElementById("start-date");
 
 
       if (!input.value) return;
@@ -1396,10 +1859,10 @@
 
 
       buildPlan();
+
       renderTasks();
-      updateProgressUI();
-      updateCountdown();
-      updateDashboard();
+
+      updateAll();
 
     }
 
@@ -1407,9 +1870,7 @@
     function changeExamDate() {
 
       const input =
-        document.getElementById(
-          "exam-date-input"
-        );
+        document.getElementById("exam-date-input");
 
 
       if (!input.value) {
@@ -1428,578 +1889,212 @@
       }
 
 
-      updatePlanSummary();
-      updateCountdown();
-      updateDashboard();
+      updateAll();
 
     }
 
 
-    function updatePlanSummary() {
-
-      const startDate =
-        getStartDate();
-
-      const examDate =
-        getExamDate();
-
-      const summary =
-        document.getElementById(
-          "plan-summary"
-        );
-
-
-      if (!startDate && !examDate) {
-
-        summary.innerText =
-          "حدد تاريخ البداية وتاريخ الاختبار";
-
-        return;
-
-      }
-
-
-      if (startDate && examDate) {
-
-        summary.innerHTML = `
-
-          بداية الخطة:
-          <span class="font-bold text-slate-600">
-            ${formatDate(startDate)}
-          </span>
-
-          <span class="mx-1">→</span>
-
-          الاختبار:
-          <span class="font-bold text-rose-600">
-            ${formatDate(examDate)}
-          </span>
-
-        `;
-
-        return;
-
-      }
-
-
-      summary.innerHTML = `
-
-        بداية الخطة:
-        <span class="font-bold text-slate-600">
-          ${formatDate(startDate)}
-        </span>
-
-        <span class="mx-1">|</span>
-
-        حدد تاريخ الاختبار
-
-      `;
-
-    }
-
-
-    function updateCountdown() {
-
-      const countdown =
-        document.getElementById(
-          "countdown"
-        );
-
-      const examDate =
-        getExamDate();
-
-
-      if (!examDate) {
-
-        countdown.innerText =
-          "حدد تاريخ الاختبار لعرض المتبقي";
-
-        return;
-
-      }
-
-
-      const today =
-        getToday();
-
-      const exam =
-        new Date(examDate);
-
-      exam.setHours(0, 0, 0, 0);
-
-
-      const difference =
-        exam.getTime() -
-        today.getTime();
-
-
-      const days =
-        Math.ceil(
-          difference /
-          (
-            1000 *
-            60 *
-            60 *
-            24
-          )
-        );
-
-
-      if (days > 0) {
-
-        countdown.innerHTML = `
-          ⏳ باقي على الاختبار
-          <span class="text-teal-700 text-sm">
-            ${days}
-          </span>
-          يوم
-        `;
-
-      } else if (days === 0) {
-
-        countdown.innerHTML = `
-          🎯
-          <span class="text-rose-600 text-sm">
-            الاختبار اليوم
-          </span>
-        `;
-
-      } else {
-
-        countdown.innerHTML = `
-          انتهى موعد الاختبار منذ
-          <span class="text-rose-600">
-            ${Math.abs(days)}
-          </span>
-          يوم
-        `;
-
-      }
-
-    }
-
-
-    function updateDashboard() {
-
-      const startDate =
-        getStartDate();
-
-      if (!startDate) return;
-
-
-      const examDate =
-        getExamDate();
-
-      const today =
-        getToday();
-
-
-      let totalTasks = 0;
-      let completedTasks = 0;
-
-
-      Object.keys(tasksData).forEach(
-        groupKey => {
-
-          tasksData[groupKey].forEach(
-            task => {
-
-              totalTasks++;
-
-
-              if (
-                localStorage.getItem(
-                  task.id
-                ) === "true"
-              ) {
-
-                completedTasks++;
-
-              }
-
-            }
-          );
-
-        }
-      );
-
-
-      const percentage =
-        totalTasks
-          ? Math.round(
-              (
-                completedTasks /
-                totalTasks
-              ) * 100
-            )
-          : 0;
-
-
-      const remaining =
-        totalTasks -
-        completedTasks;
-
-
-      document.getElementById(
-        "dashboard-progress-text"
-      ).innerText =
-        `${percentage}%`;
-
-
-      document.getElementById(
-        "dashboard-progress-bar"
-      ).style.width =
-        `${percentage}%`;
-
-
-      document.getElementById(
-        "dashboard-remaining"
-      ).innerText =
-        `${remaining} مهمة`;
-
-
-      document.getElementById(
-        "dashboard-completed"
-      ).innerText =
-        completedTasks;
-
-
-      document.getElementById(
-        "dashboard-total"
-      ).innerText =
-        totalTasks;
-
-
-      /* نهاية الخطة */
-
-      let planEndDate = null;
-
-
-      if (tasksData.simulations.length) {
-
-        planEndDate =
-          tasksData.simulations[
-            tasksData.simulations.length - 1
-          ].date;
-
-      }
-
-
-      document.getElementById(
-        "dashboard-start-date"
-      ).innerText =
-        formatDate(startDate);
-
-
-      document.getElementById(
-        "dashboard-plan-end"
-      ).innerText =
-        formatDate(planEndDate);
-
-
-      document.getElementById(
-        "dashboard-exam-date"
-      ).innerText =
-        examDate
-          ? formatDate(examDate)
-          : "غير محدد";
-
-
-      document.getElementById(
-        "dashboard-today"
-      ).innerText =
-        formatDate(today);
-
-
-      /* أيام نهاية الخطة */
-
-      if (planEndDate) {
-
-        const end =
-          new Date(planEndDate);
-
-        end.setHours(0, 0, 0, 0);
-
-
-        const diff =
-          end.getTime() -
-          today.getTime();
-
-
-        let days =
-          Math.ceil(
-            diff /
-            (
-              1000 *
-              60 *
-              60 *
-              24
-            )
-          );
-
-
-        if (days < 0) {
-          days = 0;
-        }
-
-
-        document.getElementById(
-          "days-plan-remaining"
-        ).innerText =
-          days;
-
-      }
-
-
-      /* أيام الاختبار */
-
-      if (!examDate) {
-
-        document.getElementById(
-          "days-exam-remaining"
-        ).innerText =
-          "—";
-
-      } else {
-
-        const exam =
-          new Date(examDate);
-
-        exam.setHours(0, 0, 0, 0);
-
-
-        const diff =
-          exam.getTime() -
-          today.getTime();
-
-
-        const days =
-          Math.ceil(
-            diff /
-            (
-              1000 *
-              60 *
-              60 *
-              24
-            )
-          );
-
-
-        document.getElementById(
-          "days-exam-remaining"
-        ).innerText =
-          days > 0
-            ? days
-            : days === 0
-              ? "اليوم"
-              : "انتهى";
-
-      }
-
-
-      /* المرحلة الحالية */
-
-      let currentPhase =
-        "لم تبدأ الخطة";
-
-      let currentSubject =
-        "—";
-
-
-      const inRange =
-        (list) =>
-          list.length &&
-          today >= list[0].date &&
-          today <= list[list.length - 1].date;
-
-
-      if (inRange(tasksData.medicine)) {
-
-        currentPhase =
-          "المرحلة الأولى";
-
-        currentSubject =
-          "الباطنة — Internal Medicine";
-
-      }
-
-      else if (inRange(tasksData.surgery)) {
-
-        currentPhase =
-          "المرحلة الأولى";
-
-        currentSubject =
-          "الجراحة — Surgery";
-
-      }
-
-      else if (inRange(tasksData.obgyn)) {
-
-        currentPhase =
-          "المرحلة الأولى";
-
-        currentSubject =
-          "النساء والولادة — OB/GYN";
-
-      }
-
-      else if (inRange(tasksData.pediatrics)) {
-
-        currentPhase =
-          "المرحلة الأولى";
-
-        currentSubject =
-          "الأطفال — Pediatrics";
-
-      }
-
-      else if (inRange(tasksData.consolidation)) {
-
-        currentPhase =
-          "المرحلة الثانية";
-
-        currentSubject =
-          "MG / GB + 200 Anki يوميًا";
-
-      }
-
-      else if (inRange(tasksData.simulations)) {
-
-        currentPhase =
-          "المرحلة الثالثة";
-
-        currentSubject =
-          "التجميعات + مراجعة الأخطاء";
-
-      }
-
-      else if (
-        tasksData.simulations.length &&
-        today >
-        tasksData.simulations[
-          tasksData.simulations.length - 1
-        ].date
-      ) {
-
-        currentPhase =
-          "الخطة مكتملة 🎉";
-
-        currentSubject =
-          "الاستعداد النهائي للاختبار";
-
-      }
-
-
-      document.getElementById(
-        "current-phase"
-      ).innerText =
-        currentPhase;
-
-
-      document.getElementById(
-        "current-subject"
-      ).innerText =
-        currentSubject;
-
-    }
-
+    /* ==========================================
+       RESET
+    ========================================== */
 
     function resetAllProgress() {
 
       const confirmed =
         confirm(
-          "هل أنت متأكد من إزالة جميع علامات الإنجاز؟\n\nسيتم الاحتفاظ بتاريخ البداية وتاريخ الاختبار."
+          "هل أنت متأكد من إعادة تعيين جميع المهام؟"
         );
 
 
       if (!confirmed) return;
 
 
-      Object.keys(tasksData).forEach(
-        groupKey => {
+      getAllTasks().forEach(task => {
 
-          tasksData[groupKey].forEach(
-            task => {
+        localStorage.removeItem(task.id);
 
-              localStorage.removeItem(
-                task.id
-              );
-
-            }
-          );
-
-        }
-      );
+      });
 
 
       renderTasks();
+
+      updateAll();
+
+    }
+
+
+    /* ==========================================
+       PAGE NAVIGATION
+    ========================================== */
+
+    function toggleMenu() {
+
+      const menu =
+        document.getElementById("menu");
+
+      menu.classList.toggle("hidden");
+
+    }
+
+
+    function showPage(page) {
+
+      document.getElementById(
+        "home-page"
+      ).classList.add("hidden");
+
+
+      document.getElementById(
+        "plan-page"
+      ).classList.add("hidden");
+
+
+      document.getElementById(
+        "sources-page"
+      ).classList.add("hidden");
+
+
+      if (page === "home") {
+
+        document.getElementById(
+          "home-page"
+        ).classList.remove("hidden");
+
+      }
+
+
+      if (page === "plan") {
+
+        document.getElementById(
+          "plan-page"
+        ).classList.remove("hidden");
+
+      }
+
+
+      if (page === "sources") {
+
+        document.getElementById(
+          "sources-page"
+        ).classList.remove("hidden");
+
+      }
+
+
+      document.getElementById(
+        "menu"
+      ).classList.add("hidden");
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    function goToSection(id) {
+
+      showPage("plan");
+
+
+      setTimeout(() => {
+
+        const element =
+          document.getElementById(id);
+
+
+        if (element) {
+
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+        }
+
+      }, 100);
+
+    }
+
+
+    /* ==========================================
+       CLOSE MENU OUTSIDE
+    ========================================== */
+
+    document.addEventListener(
+      "click",
+      function(event) {
+
+        const menu =
+          document.getElementById("menu");
+
+        const button =
+          event.target.closest("button");
+
+
+        if (
+          !menu.contains(event.target) &&
+          !(
+            button &&
+            button.getAttribute("onclick") === "toggleMenu()"
+          )
+        ) {
+
+          menu.classList.add("hidden");
+
+        }
+
+      }
+    );
+
+
+    /* ==========================================
+       UPDATE ALL
+    ========================================== */
+
+    function updateAll() {
+
       updateProgressUI();
+
+      updatePlanSummary();
+
+      updateCountdown();
+
       updateDashboard();
 
     }
 
 
-    /* INITIALIZATION */
+    /* ==========================================
+       INITIALIZE
+    ========================================== */
 
     document.addEventListener(
       "DOMContentLoaded",
-      () => {
+      function() {
 
-        let savedDate =
-          localStorage.getItem(
-            STORAGE_START_DATE
-          );
-
-
-        if (!savedDate) {
-
-          const today =
-            new Date();
-
-          const yyyy =
-            today.getFullYear();
-
-          const mm =
-            String(
-              today.getMonth() + 1
-            ).padStart(2, "0");
-
-          const dd =
-            String(
-              today.getDate()
-            ).padStart(2, "0");
-
-
-          savedDate =
-            `${yyyy}-${mm}-${dd}`;
-
-
-          localStorage.setItem(
-            STORAGE_START_DATE,
-            savedDate
-          );
-
-        }
+        const startDate =
+          getStartDate();
 
 
         document.getElementById(
           "start-date"
         ).value =
-          savedDate;
+          dateToInputValue(startDate);
 
 
-        const savedExamDate =
-          localStorage.getItem(
-            STORAGE_EXAM_DATE
-          );
+        const examDate =
+          getExamDate();
 
 
-        if (savedExamDate) {
+        if (examDate) {
 
           document.getElementById(
             "exam-date-input"
           ).value =
-            savedExamDate;
+            dateToInputValue(examDate);
 
         }
 
@@ -2008,13 +2103,7 @@
 
         renderTasks();
 
-        updateProgressUI();
-
-        updatePlanSummary();
-
-        updateCountdown();
-
-        updateDashboard();
+        updateAll();
 
       }
     );
