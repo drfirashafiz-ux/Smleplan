@@ -159,8 +159,9 @@
           </button>
 
 
+          <!-- Telegram Support -->
           <a
-            href="https://wa.me/966590731951?text=السلام%20عليكم،%20لدي%20ملاحظة%20بخصوص%20خطة%20الاستعداد%20للاختبار"
+            href="https://t.me/Firas_H21"
             target="_blank"
             rel="noopener noreferrer"
             class="w-full text-right px-4 py-3 hover:bg-slate-50 font-bold flex items-center gap-2"
@@ -233,7 +234,7 @@
 
       <!-- الإحصائيات -->
 
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <section class="grid grid-cols-2 md:grid-cols-5 gap-3">
 
 
         <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
@@ -293,6 +294,24 @@
           <p
             id="dashboard-total"
             class="text-2xl font-black text-slate-900 mt-2"
+          >
+            0
+          </p>
+
+        </div>
+
+
+        <!-- عداد الزيارات -->
+
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+
+          <p class="text-xs text-slate-500 font-bold">
+            👁️ عدد الزيارات
+          </p>
+
+          <p
+            id="dashboard-visits"
+            class="text-2xl font-black text-indigo-600 mt-2"
           >
             0
           </p>
@@ -552,9 +571,7 @@
         </div>
 
 
-        <!-- ==================
-             MEDICINE
-        =================== -->
+        <!-- MEDICINE -->
 
         <div
           id="medicine-section"
@@ -564,7 +581,6 @@
           <div class="p-5 bg-teal-50 border-b border-teal-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
 
               <div>
 
@@ -601,9 +617,7 @@
         </div>
 
 
-        <!-- ==================
-             SURGERY
-        =================== -->
+        <!-- SURGERY -->
 
         <div
           id="surgery-section"
@@ -613,7 +627,6 @@
           <div class="p-5 bg-blue-50 border-b border-blue-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
 
               <div>
 
@@ -650,9 +663,7 @@
         </div>
 
 
-        <!-- ==================
-             OBGYN
-        =================== -->
+        <!-- OBGYN -->
 
         <div
           id="obgyn-section"
@@ -662,7 +673,6 @@
           <div class="p-5 bg-pink-50 border-b border-pink-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
 
               <div>
 
@@ -699,9 +709,7 @@
         </div>
 
 
-        <!-- ==================
-             PEDIATRICS
-        =================== -->
+        <!-- PEDIATRICS -->
 
         <div
           id="pediatrics-section"
@@ -711,7 +719,6 @@
           <div class="p-5 bg-purple-50 border-b border-purple-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
 
               <div>
 
@@ -750,9 +757,7 @@
       </section>
 
 
-      <!-- ==================================================
-           MONTH 3
-      =================================================== -->
+      <!-- MONTH 3 -->
 
       <section>
 
@@ -798,9 +803,7 @@
       </section>
 
 
-      <!-- ==================================================
-           MONTH 4
-      =================================================== -->
+      <!-- MONTH 4 -->
 
       <section>
 
@@ -1094,19 +1097,19 @@
             </h3>
 
             <p class="text-sm text-slate-500 mt-1 leading-6">
-              عند وجود ملاحظة أو اقتراح لتطوير الخطة، تواصل معي مباشرة عبر واتساب.
+              عند وجود ملاحظة أو اقتراح لتطوير الخطة، تواصل معي مباشرة عبر تيليجرام.
             </p>
 
           </div>
 
 
           <a
-            href="https://wa.me/966590731951?text=السلام%20عليكم،%20لدي%20ملاحظة%20بخصوص%20خطة%20الاستعداد%20للاختبار"
+            href="https://t.me/Firas_H21"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-black px-5 py-3 rounded-xl transition"
+            class="inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-black px-5 py-3 rounded-xl transition"
           >
-            💬 تواصل عبر واتساب
+            ✈️ تواصل عبر تيليجرام
           </a>
 
         </div>
@@ -1146,6 +1149,10 @@
 
     const STORAGE_EXAM_DATE =
       "exam_plan_exam_date";
+
+    /* عداد الزيارات */
+    const STORAGE_VISIT_COUNT =
+      "exam_plan_visit_count";
 
 
     /* ==========================================
@@ -1845,6 +1852,46 @@
         "dashboard-total"
       ).textContent =
         progress.total;
+
+    }
+
+
+    /* ==========================================
+       VISIT COUNTER
+    ========================================== */
+
+    function updateVisitCounter() {
+
+      let visits =
+        parseInt(
+          localStorage.getItem(
+            STORAGE_VISIT_COUNT
+          ) || "0",
+          10
+        );
+
+
+      visits++;
+
+
+      localStorage.setItem(
+        STORAGE_VISIT_COUNT,
+        visits
+      );
+
+
+      const counter =
+        document.getElementById(
+          "dashboard-visits"
+        );
+
+
+      if (counter) {
+
+        counter.textContent =
+          visits.toLocaleString("en-US");
+
+      }
 
     }
 
@@ -2606,6 +2653,12 @@
         buildPlan();
 
         renderTasks();
+
+        /*
+         * زيادة عداد الزيارات مرة واحدة
+         * عند فتح الموقع
+         */
+        updateVisitCounter();
 
         updateAll();
 
