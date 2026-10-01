@@ -76,16 +76,18 @@
   </style>
 </head>
 
+
 <body class="text-slate-800 antialiased min-h-screen pb-12">
 
-  <!-- =========================
+  <!-- ==================================================
        HEADER
-  ========================== -->
+  =================================================== -->
+
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
 
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
-      <!-- Title -->
+      <!-- العنوان -->
       <div>
         <h1 class="font-black text-lg sm:text-xl text-slate-900">
           🩺 خطة الاستعداد للاختبار
@@ -96,7 +98,8 @@
         </p>
       </div>
 
-      <!-- Progress -->
+
+      <!-- شريط الإنجاز -->
       <div class="hidden sm:block flex-1 max-w-xs">
 
         <div class="flex justify-between text-xs font-bold mb-1">
@@ -114,42 +117,56 @@
 
       </div>
 
-      <!-- Menu -->
+
+      <!-- القائمة -->
       <div class="relative">
 
         <button
           onclick="toggleMenu()"
-          class="w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-xl font-black"
+          class="w-10 h-10 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-2xl font-black"
           aria-label="القائمة"
         >
-          ⋮
+          ☰
         </button>
+
 
         <div
           id="menu"
-          class="hidden absolute left-0 top-12 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden menu-animation"
+          class="hidden absolute left-0 top-12 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden menu-animation"
         >
 
           <button
             onclick="showPage('home')"
-            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+            class="w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
           >
             🏠 الصفحة الرئيسية
           </button>
 
+
           <button
             onclick="showPage('plan')"
-            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+            class="w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
           >
             📋 الخطة
           </button>
 
+
           <button
             onclick="showPage('sources')"
-            class="menu-item w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
+            class="w-full text-right px-4 py-3 hover:bg-slate-50 font-bold"
           >
             📚 المصادر
           </button>
+
+
+          <a
+            href="https://wa.me/966590731951?text=السلام%20عليكم،%20لدي%20ملاحظة%20بخصوص%20خطة%20الاستعداد%20للاختبار"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full text-right px-4 py-3 hover:bg-slate-50 font-bold flex items-center gap-2"
+          >
+            💬 الدعم والملاحظات
+          </a>
 
         </div>
 
@@ -157,7 +174,8 @@
 
     </div>
 
-    <!-- Mobile Progress -->
+
+    <!-- Progress للجوال -->
     <div class="sm:hidden px-4 pb-3">
 
       <div class="flex justify-between text-xs font-bold mb-1">
@@ -166,11 +184,13 @@
       </div>
 
       <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+
         <div
           id="mobile-progress-bar"
           class="h-full bg-teal-600 rounded-full transition-all"
           style="width:0%"
         ></div>
+
       </div>
 
     </div>
@@ -178,14 +198,22 @@
   </header>
 
 
+  <!-- ==================================================
+       MAIN
+  =================================================== -->
+
   <main class="max-w-5xl mx-auto px-4 mt-6">
+
 
     <!-- ==================================================
          HOME PAGE
     =================================================== -->
+
     <section id="home-page" class="space-y-6">
 
-      <!-- Welcome -->
+
+      <!-- الترحيب -->
+
       <section class="bg-gradient-to-l from-teal-700 to-teal-600 text-white rounded-3xl p-6 shadow-sm">
 
         <p class="text-teal-100 text-sm font-bold mb-2">
@@ -203,34 +231,81 @@
       </section>
 
 
-      <!-- Main Stats -->
+      <!-- الإحصائيات -->
+
       <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
 
-        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-          <p class="text-xs text-slate-500 font-bold">إنجاز الخطة</p>
-          <p id="dashboard-progress" class="text-2xl font-black text-teal-700 mt-2">0%</p>
-        </div>
 
         <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-          <p class="text-xs text-slate-500 font-bold">المهام المكتملة</p>
-          <p id="dashboard-completed" class="text-2xl font-black text-slate-900 mt-2">0</p>
+
+          <p class="text-xs text-slate-500 font-bold">
+            إنجاز الخطة
+          </p>
+
+          <p
+            id="dashboard-progress"
+            class="text-2xl font-black text-teal-700 mt-2"
+          >
+            0%
+          </p>
+
         </div>
 
-        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-          <p class="text-xs text-slate-500 font-bold">المتبقي</p>
-          <p id="dashboard-remaining" class="text-2xl font-black text-orange-600 mt-2">0</p>
-        </div>
 
         <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
-          <p class="text-xs text-slate-500 font-bold">إجمالي المهام</p>
-          <p id="dashboard-total" class="text-2xl font-black text-slate-900 mt-2">0</p>
+
+          <p class="text-xs text-slate-500 font-bold">
+            المهام المكتملة
+          </p>
+
+          <p
+            id="dashboard-completed"
+            class="text-2xl font-black text-slate-900 mt-2"
+          >
+            0
+          </p>
+
+        </div>
+
+
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+
+          <p class="text-xs text-slate-500 font-bold">
+            المتبقي
+          </p>
+
+          <p
+            id="dashboard-remaining"
+            class="text-2xl font-black text-orange-600 mt-2"
+          >
+            0
+          </p>
+
+        </div>
+
+
+        <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+
+          <p class="text-xs text-slate-500 font-bold">
+            إجمالي المهام
+          </p>
+
+          <p
+            id="dashboard-total"
+            class="text-2xl font-black text-slate-900 mt-2"
+          >
+            0
+          </p>
+
         </div>
 
       </section>
 
 
-      <!-- Countdown -->
+      <!-- العد التنازلي -->
+
       <section class="grid md:grid-cols-2 gap-4">
+
 
         <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
@@ -238,11 +313,17 @@
             المتبقي لإنهاء الخطة
           </p>
 
-          <p id="days-to-plan" class="text-3xl font-black text-slate-900 mt-2">
+          <p
+            id="days-to-plan"
+            class="text-3xl font-black text-slate-900 mt-2"
+          >
             -
           </p>
 
-          <p id="plan-end-dashboard" class="text-xs text-slate-500 mt-2">
+          <p
+            id="plan-end-dashboard"
+            class="text-xs text-slate-500 mt-2"
+          >
             -
           </p>
 
@@ -255,11 +336,17 @@
             المتبقي على الاختبار
           </p>
 
-          <p id="days-to-exam" class="text-3xl font-black text-teal-700 mt-2">
+          <p
+            id="days-to-exam"
+            class="text-3xl font-black text-teal-700 mt-2"
+          >
             -
           </p>
 
-          <p id="exam-date-dashboard" class="text-xs text-slate-500 mt-2">
+          <p
+            id="exam-date-dashboard"
+            class="text-xs text-slate-500 mt-2"
+          >
             -
           </p>
 
@@ -268,7 +355,8 @@
       </section>
 
 
-      <!-- Current Status -->
+      <!-- الوضع الحالي -->
+
       <section class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
         <div class="p-5 border-b border-slate-100">
@@ -279,9 +367,12 @@
 
         </div>
 
+
         <div class="grid sm:grid-cols-2 gap-4 p-5">
 
+
           <div>
+
             <p class="text-xs text-slate-500 font-bold">
               المرحلة الحالية
             </p>
@@ -292,10 +383,12 @@
             >
               -
             </p>
+
           </div>
 
 
           <div>
+
             <p class="text-xs text-slate-500 font-bold">
               المادة الحالية
             </p>
@@ -306,10 +399,12 @@
             >
               -
             </p>
+
           </div>
 
 
           <div>
+
             <p class="text-xs text-slate-500 font-bold">
               تاريخ اليوم
             </p>
@@ -320,10 +415,12 @@
             >
               -
             </p>
+
           </div>
 
 
           <div>
+
             <p class="text-xs text-slate-500 font-bold">
               بداية الخطة
             </p>
@@ -334,6 +431,7 @@
             >
               -
             </p>
+
           </div>
 
         </div>
@@ -341,14 +439,17 @@
       </section>
 
 
-      <!-- Dates -->
+      <!-- التواريخ -->
+
       <section class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
 
         <h2 class="font-black text-lg mb-4">
           📅 تواريخ الخطة
         </h2>
 
+
         <div class="grid sm:grid-cols-2 gap-4">
+
 
           <div>
 
@@ -389,6 +490,7 @@
           class="mt-4 text-sm text-slate-600 leading-7"
         ></div>
 
+
         <div
           id="countdown"
           class="mt-3 bg-teal-50 border border-teal-100 text-teal-800 rounded-xl p-3 font-bold"
@@ -397,7 +499,8 @@
       </section>
 
 
-      <!-- Reset -->
+      <!-- إعادة التعيين -->
+
       <section class="flex justify-center">
 
         <button
@@ -415,7 +518,9 @@
     <!-- ==================================================
          PLAN PAGE
     =================================================== -->
+
     <section id="plan-page" class="hidden space-y-6">
+
 
       <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
@@ -430,7 +535,8 @@
       </div>
 
 
-      <!-- PHASE 1 -->
+      <!-- المرحلة الأولى -->
+
       <section>
 
         <div class="mb-4">
@@ -446,7 +552,10 @@
         </div>
 
 
-        <!-- Medicine -->
+        <!-- ==================
+             MEDICINE
+        =================== -->
+
         <div
           id="medicine-section"
           class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
@@ -455,6 +564,7 @@
           <div class="p-5 bg-teal-50 border-b border-teal-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
 
               <div>
 
@@ -482,12 +592,19 @@
 
           </div>
 
-          <div id="medicine-tasks" class="divide-y divide-slate-100"></div>
+
+          <div
+            id="medicine-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
 
 
-        <!-- Surgery -->
+        <!-- ==================
+             SURGERY
+        =================== -->
+
         <div
           id="surgery-section"
           class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
@@ -496,6 +613,7 @@
           <div class="p-5 bg-blue-50 border-b border-blue-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
 
               <div>
 
@@ -523,12 +641,19 @@
 
           </div>
 
-          <div id="surgery-tasks" class="divide-y divide-slate-100"></div>
+
+          <div
+            id="surgery-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
 
 
-        <!-- OBGYN -->
+        <!-- ==================
+             OBGYN
+        =================== -->
+
         <div
           id="obgyn-section"
           class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
@@ -537,6 +662,7 @@
           <div class="p-5 bg-pink-50 border-b border-pink-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
 
               <div>
 
@@ -564,12 +690,19 @@
 
           </div>
 
-          <div id="obgyn-tasks" class="divide-y divide-slate-100"></div>
+
+          <div
+            id="obgyn-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
 
 
-        <!-- Pediatrics -->
+        <!-- ==================
+             PEDIATRICS
+        =================== -->
+
         <div
           id="pediatrics-section"
           class="section-card bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-5"
@@ -578,6 +711,7 @@
           <div class="p-5 bg-purple-50 border-b border-purple-100">
 
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
 
               <div>
 
@@ -605,14 +739,21 @@
 
           </div>
 
-          <div id="pediatrics-tasks" class="divide-y divide-slate-100"></div>
+
+          <div
+            id="pediatrics-tasks"
+            class="divide-y divide-slate-100"
+          ></div>
 
         </div>
 
       </section>
 
 
-      <!-- PHASE 2 -->
+      <!-- ==================================================
+           MONTH 3
+      =================================================== -->
+
       <section>
 
         <div class="mb-4">
@@ -646,6 +787,7 @@
 
           </div>
 
+
           <div
             id="consolidation-tasks"
             class="divide-y divide-slate-100"
@@ -656,7 +798,10 @@
       </section>
 
 
-      <!-- PHASE 3 -->
+      <!-- ==================================================
+           MONTH 4
+      =================================================== -->
+
       <section>
 
         <div class="mb-4">
@@ -686,6 +831,7 @@
 
           </div>
 
+
           <div
             id="simulations-tasks"
             class="divide-y divide-slate-100"
@@ -701,7 +847,9 @@
     <!-- ==================================================
          SOURCES PAGE
     =================================================== -->
+
     <section id="sources-page" class="hidden space-y-6">
+
 
       <div class="bg-gradient-to-l from-slate-900 to-slate-800 text-white rounded-3xl p-6 shadow-sm">
 
@@ -724,6 +872,7 @@
 
 
         <!-- Review Team -->
+
         <a
           href="https://t.me/SMLE_medicine"
           target="_blank"
@@ -763,6 +912,7 @@
 
 
         <!-- Wafa -->
+
         <a
           href="https://t.me/WafaOBGYN"
           target="_blank"
@@ -802,6 +952,7 @@
 
 
         <!-- Hamoud -->
+
         <a
           href="https://t.me/SurgeryByHamoud"
           target="_blank"
@@ -841,6 +992,7 @@
 
 
         <!-- Mahdi -->
+
         <a
           href="https://t.me/smlepaediatrics"
           target="_blank"
@@ -881,14 +1033,17 @@
       </div>
 
 
-      <!-- Quick Links -->
+      <!-- الوصول السريع -->
+
       <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
         <h3 class="font-black text-lg mb-4">
           🔗 الوصول السريع
         </h3>
 
+
         <div class="grid sm:grid-cols-2 gap-3">
+
 
           <button
             onclick="goToSection('medicine-section')"
@@ -897,6 +1052,7 @@
             🩺 الانتقال إلى الباطنة
           </button>
 
+
           <button
             onclick="goToSection('surgery-section')"
             class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
@@ -904,12 +1060,14 @@
             🔪 الانتقال إلى الجراحة
           </button>
 
+
           <button
             onclick="goToSection('obgyn-section')"
             class="text-right bg-slate-50 hover:bg-slate-100 rounded-xl p-4 font-bold"
           >
             🤰 الانتقال إلى النساء والولادة
           </button>
+
 
           <button
             onclick="goToSection('pediatrics-section')"
@@ -922,12 +1080,48 @@
 
       </div>
 
+
+      <!-- الدعم -->
+
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+          <div>
+
+            <h3 class="font-black text-lg">
+              💬 الدعم والملاحظات
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-1 leading-6">
+              عند وجود ملاحظة أو اقتراح لتطوير الخطة، تواصل معي مباشرة عبر واتساب.
+            </p>
+
+          </div>
+
+
+          <a
+            href="https://wa.me/966590731951?text=السلام%20عليكم،%20لدي%20ملاحظة%20بخصوص%20خطة%20الاستعداد%20للاختبار"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-black px-5 py-3 rounded-xl transition"
+          >
+            💬 تواصل عبر واتساب
+          </a>
+
+        </div>
+
+      </div>
+
     </section>
 
   </main>
 
 
-  <!-- Footer -->
+  <!-- ==================================================
+       FOOTER
+  =================================================== -->
+
   <footer class="max-w-5xl mx-auto px-4 mt-10 text-center">
 
     <p class="text-xs text-slate-400">
@@ -937,14 +1131,21 @@
   </footer>
 
 
+  <!-- ==================================================
+       JAVASCRIPT
+  =================================================== -->
+
   <script>
 
     /* ==========================================
        STORAGE
     ========================================== */
 
-    const STORAGE_START_DATE = "exam_plan_start_date";
-    const STORAGE_EXAM_DATE = "exam_plan_exam_date";
+    const STORAGE_START_DATE =
+      "exam_plan_start_date";
+
+    const STORAGE_EXAM_DATE =
+      "exam_plan_exam_date";
 
 
     /* ==========================================
@@ -952,12 +1153,19 @@
     ========================================== */
 
     const tasksData = {
+
       medicine: [],
+
       surgery: [],
+
       obgyn: [],
+
       pediatrics: [],
+
       consolidation: [],
+
       simulations: []
+
     };
 
 
@@ -978,50 +1186,67 @@
         Number(parts[1]) - 1,
         Number(parts[2])
       );
+
     }
 
 
     function dateToInputValue(date) {
 
-      const y = date.getFullYear();
+      const y =
+        date.getFullYear();
 
-      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const m =
+        String(date.getMonth() + 1).padStart(2, "0");
 
-      const d = String(date.getDate()).padStart(2, "0");
+      const d =
+        String(date.getDate()).padStart(2, "0");
 
       return `${y}-${m}-${d}`;
+
     }
 
 
     function addDays(date, days) {
 
-      const result = new Date(date);
+      const result =
+        new Date(date);
 
-      result.setDate(result.getDate() + days);
+      result.setDate(
+        result.getDate() + days
+      );
 
       return result;
+
     }
 
 
     function addMonths(date, months) {
 
-      const result = new Date(date);
+      const result =
+        new Date(date);
 
-      const originalDay = result.getDate();
+      const originalDay =
+        result.getDate();
 
       result.setDate(1);
 
-      result.setMonth(result.getMonth() + months);
+      result.setMonth(
+        result.getMonth() + months
+      );
 
-      const lastDay = new Date(
-        result.getFullYear(),
-        result.getMonth() + 1,
-        0
-      ).getDate();
+      const lastDay =
+        new Date(
+          result.getFullYear(),
+          result.getMonth() + 1,
+          0
+        ).getDate();
 
-      result.setDate(Math.min(originalDay, lastDay));
+      result.setDate(
+        Math.min(originalDay, lastDay)
+      );
 
       return result;
+
     }
 
 
@@ -1038,44 +1263,56 @@
           calendar: "gregory"
         }
       ).format(date);
+
     }
 
 
     function getToday() {
 
-      const now = new Date();
+      const now =
+        new Date();
 
       return new Date(
         now.getFullYear(),
         now.getMonth(),
         now.getDate()
       );
+
     }
 
 
     function getStartDate() {
 
-      const saved = localStorage.getItem(STORAGE_START_DATE);
+      const saved =
+        localStorage.getItem(
+          STORAGE_START_DATE
+        );
 
       if (saved) {
 
-        const parsed = parseLocalDate(saved);
+        const parsed =
+          parseLocalDate(saved);
 
         if (parsed) return parsed;
 
       }
 
       return getToday();
+
     }
 
 
     function getExamDate() {
 
-      const saved = localStorage.getItem(STORAGE_EXAM_DATE);
+      const saved =
+        localStorage.getItem(
+          STORAGE_EXAM_DATE
+        );
 
       if (!saved) return null;
 
       return parseLocalDate(saved);
+
     }
 
 
@@ -1085,153 +1322,236 @@
 
     function buildPlan() {
 
-      Object.keys(tasksData).forEach(key => {
-        tasksData[key] = [];
-      });
+      Object.keys(tasksData).forEach(
+        key => {
+          tasksData[key] = [];
+        }
+      );
 
 
-      const startDate = getStartDate();
+      const startDate =
+        getStartDate();
 
 
-      /* ---------------------------
+      /* =========================
          MEDICINE
-      ---------------------------- */
+      ========================= */
 
       for (let i = 0; i < 14; i++) {
 
-        const date = addDays(startDate, i);
+        const date =
+          addDays(startDate, i);
 
         tasksData.medicine.push({
+
           id: `medicine_${i + 1}`,
+
           date,
-          label: `اليوم ${i + 1} — الباطنة`,
+
+          label:
+            `اليوم ${i + 1} — الباطنة`,
+
           type: "medicine"
+
         });
 
       }
 
 
-      /* ---------------------------
+      /* =========================
          SURGERY
-      ---------------------------- */
+      ========================= */
 
-      const surgeryStart = addDays(startDate, 14);
+      const surgeryStart =
+        addDays(startDate, 14);
+
 
       for (let i = 0; i < 15; i++) {
 
-        const date = addDays(surgeryStart, i);
+        const date =
+          addDays(surgeryStart, i);
 
         tasksData.surgery.push({
-          id: `surgery_${i + 1}`,
+
+          id:
+            `surgery_${i + 1}`,
+
           date,
-          label: `اليوم ${i + 1} — الجراحة`,
+
+          label:
+            `اليوم ${i + 1} — الجراحة`,
+
           type: "surgery"
+
         });
 
       }
 
 
-      /* ---------------------------
+      /* =========================
          OBGYN
-      ---------------------------- */
+      ========================= */
 
-      const obgynStart = addDays(startDate, 29);
+      const obgynStart =
+        addDays(startDate, 29);
+
 
       for (let i = 0; i < 15; i++) {
 
-        const date = addDays(obgynStart, i);
+        const date =
+          addDays(obgynStart, i);
 
         tasksData.obgyn.push({
-          id: `obgyn_${i + 1}`,
+
+          id:
+            `obgyn_${i + 1}`,
+
           date,
-          label: `اليوم ${i + 1} — 2 Topics + MG / GB`,
+
+          label:
+            `اليوم ${i + 1} — 2 Topics + MG / GB`,
+
           type: "obgyn"
+
         });
 
       }
 
 
-      /* ---------------------------
+      /* =========================
          PEDIATRICS
-      ---------------------------- */
+      ========================= */
 
-      const pediatricsStart = addDays(startDate, 44);
+      const pediatricsStart =
+        addDays(startDate, 44);
+
 
       for (let i = 0; i < 15; i++) {
 
-        const date = addDays(pediatricsStart, i);
+        const date =
+          addDays(pediatricsStart, i);
 
         tasksData.pediatrics.push({
-          id: `pediatrics_${i + 1}`,
+
+          id:
+            `pediatrics_${i + 1}`,
+
           date,
-          label: `اليوم ${i + 1} — 2 Topics + MG / GB`,
+
+          label:
+            `اليوم ${i + 1} — 2 Topics + MG / GB`,
+
           type: "pediatrics"
+
         });
 
       }
 
 
-      /* ---------------------------
+      /* =========================
          MONTH 3
-         MG / GB + 200 ANKI EVERY DAY
-      ---------------------------- */
+         200 ANKI EVERY DAY
+      ========================= */
 
-      const consolidationStart = addMonths(startDate, 2);
+      const consolidationStart =
+        addMonths(startDate, 2);
 
-      const consolidationEnd = addMonths(startDate, 3);
+      const consolidationEnd =
+        addMonths(startDate, 3);
 
-      let currentDate = new Date(consolidationStart);
+
+      let currentDate =
+        new Date(consolidationStart);
 
       let dayNumber = 1;
 
-      while (currentDate < consolidationEnd) {
+
+      while (
+        currentDate < consolidationEnd
+      ) {
 
         tasksData.consolidation.push({
-          id: `con_mg_${dayNumber}`,
-          date: new Date(currentDate),
-          label: `اليوم ${dayNumber} — MG / GB`,
-          type: "consolidation"
+
+          id:
+            `con_mg_${dayNumber}`,
+
+          date:
+            new Date(currentDate),
+
+          label:
+            `اليوم ${dayNumber} — MG / GB`,
+
+          type:
+            "consolidation"
+
         });
 
 
         tasksData.consolidation.push({
-          id: `con_anki_${dayNumber}`,
-          date: new Date(currentDate),
-          label: `اليوم ${dayNumber} — 200 Anki`,
-          type: "consolidation"
+
+          id:
+            `con_anki_${dayNumber}`,
+
+          date:
+            new Date(currentDate),
+
+          label:
+            `اليوم ${dayNumber} — 200 Anki`,
+
+          type:
+            "consolidation"
+
         });
 
 
-        currentDate = addDays(currentDate, 1);
+        currentDate =
+          addDays(currentDate, 1);
 
         dayNumber++;
 
       }
 
 
-      /* ---------------------------
+      /* =========================
          MONTH 4
-         SIMULATIONS
-      ---------------------------- */
+      ========================= */
 
-      const simulationsStart = addMonths(startDate, 3);
+      const simulationsStart =
+        addMonths(startDate, 3);
 
-      const simulationsEnd = addMonths(startDate, 4);
+      const simulationsEnd =
+        addMonths(startDate, 4);
 
-      currentDate = new Date(simulationsStart);
+
+      currentDate =
+        new Date(simulationsStart);
 
       dayNumber = 1;
 
-      while (currentDate < simulationsEnd) {
+
+      while (
+        currentDate < simulationsEnd
+      ) {
 
         tasksData.simulations.push({
-          id: `simulation_${dayNumber}`,
-          date: new Date(currentDate),
-          label: `اليوم ${dayNumber} — تجميعات + مراجعة الأخطاء`,
-          type: "simulations"
+
+          id:
+            `simulation_${dayNumber}`,
+
+          date:
+            new Date(currentDate),
+
+          label:
+            `اليوم ${dayNumber} — تجميعات + مراجعة الأخطاء`,
+
+          type:
+            "simulations"
+
         });
 
-        currentDate = addDays(currentDate, 1);
+
+        currentDate =
+          addDays(currentDate, 1);
 
         dayNumber++;
 
@@ -1241,14 +1561,21 @@
 
 
     /* ==========================================
-       RENDER TASKS
+       RENDER TASK LIST
     ========================================== */
 
-    function renderTaskList(containerId, tasks) {
+    function renderTaskList(
+      containerId,
+      tasks
+    ) {
 
-      const container = document.getElementById(containerId);
+      const container =
+        document.getElementById(
+          containerId
+        );
 
       if (!container) return;
+
 
       container.innerHTML = "";
 
@@ -1256,47 +1583,61 @@
       tasks.forEach(task => {
 
         const checked =
-          localStorage.getItem(task.id) === "true";
+          localStorage.getItem(
+            task.id
+          ) === "true";
 
 
-        const wrapper = document.createElement("div");
+        const wrapper =
+          document.createElement("div");
 
         wrapper.className =
           "flex items-center gap-3 p-4 hover:bg-slate-50 transition";
 
 
-        const checkbox = document.createElement("input");
+        const checkbox =
+          document.createElement("input");
 
-        checkbox.type = "checkbox";
+        checkbox.type =
+          "checkbox";
 
-        checkbox.id = task.id;
+        checkbox.id =
+          task.id;
 
-        checkbox.checked = checked;
+        checkbox.checked =
+          checked;
 
         checkbox.className =
           "custom-checkbox appearance-none w-5 h-5 shrink-0 rounded-md border-2 border-slate-300 cursor-pointer";
 
 
-        checkbox.onclick = () => toggleTask(task.id);
+        checkbox.onclick =
+          () => toggleTask(task.id);
 
 
-        const content = document.createElement("div");
+        const content =
+          document.createElement("div");
 
-        content.className = "flex-1 min-w-0";
+        content.className =
+          "flex-1 min-w-0";
 
 
-        const label = document.createElement("label");
+        const label =
+          document.createElement("label");
 
-        label.htmlFor = task.id;
+        label.htmlFor =
+          task.id;
 
         label.className =
           "block font-bold cursor-pointer text-sm sm:text-base";
 
 
-        label.textContent = task.label;
+        label.textContent =
+          task.label;
 
 
-        const date = document.createElement("p");
+        const date =
+          document.createElement("p");
 
         date.className =
           "text-xs text-slate-400 mt-1";
@@ -1310,11 +1651,9 @@
 
         content.appendChild(date);
 
-
         wrapper.appendChild(checkbox);
 
         wrapper.appendChild(content);
-
 
         container.appendChild(wrapper);
 
@@ -1364,17 +1703,22 @@
 
 
     /* ==========================================
-       TASK TOGGLE
+       TOGGLE TASK
     ========================================== */
 
     function toggleTask(id) {
 
-      const checkbox = document.getElementById(id);
+      const checkbox =
+        document.getElementById(id);
+
 
       localStorage.setItem(
         id,
-        checkbox.checked ? "true" : "false"
+        checkbox.checked
+          ? "true"
+          : "false"
       );
+
 
       updateAll();
 
@@ -1388,12 +1732,19 @@
     function getAllTasks() {
 
       return [
+
         ...tasksData.medicine,
+
         ...tasksData.surgery,
+
         ...tasksData.obgyn,
+
         ...tasksData.pediatrics,
+
         ...tasksData.consolidation,
+
         ...tasksData.simulations
+
       ];
 
     }
@@ -1401,26 +1752,42 @@
 
     function getProgress() {
 
-      const allTasks = getAllTasks();
+      const allTasks =
+        getAllTasks();
 
-      const total = allTasks.length;
 
-      const completed = allTasks.filter(
-        task => localStorage.getItem(task.id) === "true"
-      ).length;
+      const total =
+        allTasks.length;
+
+
+      const completed =
+        allTasks.filter(
+          task =>
+            localStorage.getItem(
+              task.id
+            ) === "true"
+        ).length;
 
 
       const percentage =
         total === 0
           ? 0
-          : Math.round((completed / total) * 100);
+          : Math.round(
+              (completed / total) * 100
+            );
 
 
       return {
+
         total,
+
         completed,
-        remaining: total - completed,
+
+        remaining:
+          total - completed,
+
         percentage
+
       };
 
     }
@@ -1428,7 +1795,8 @@
 
     function updateProgressUI() {
 
-      const progress = getProgress();
+      const progress =
+        getProgress();
 
 
       document.getElementById(
@@ -1487,22 +1855,34 @@
 
     function getPlanEndDate() {
 
-      const allTasks = getAllTasks();
+      const allTasks =
+        getAllTasks();
 
-      if (!allTasks.length) return null;
 
-      return allTasks[allTasks.length - 1].date;
+      if (!allTasks.length) {
+        return null;
+      }
+
+
+      return allTasks[
+        allTasks.length - 1
+      ].date;
 
     }
 
 
     function updatePlanSummary() {
 
-      const startDate = getStartDate();
+      const startDate =
+        getStartDate();
 
-      const planEnd = getPlanEndDate();
 
-      const examDate = getExamDate();
+      const planEnd =
+        getPlanEndDate();
+
+
+      const examDate =
+        getExamDate();
 
 
       document.getElementById(
@@ -1536,6 +1916,7 @@
       document.getElementById(
         "plan-summary"
       ).innerHTML = `
+
         <div>
           <strong>بداية الخطة:</strong>
           ${formatDate(startDate)}
@@ -1550,6 +1931,7 @@
           <strong>مدة الخطة:</strong>
           4 أشهر تقريبًا
         </div>
+
       `;
 
     }
@@ -1561,14 +1943,19 @@
 
     function updateCountdown() {
 
-      const today = getToday();
-
-      const planEnd = getPlanEndDate();
-
-      const examDate = getExamDate();
+      const today =
+        getToday();
 
 
-      /* Plan countdown */
+      const planEnd =
+        getPlanEndDate();
+
+
+      const examDate =
+        getExamDate();
+
+
+      /* الخطة */
 
       if (planEnd) {
 
@@ -1579,7 +1966,7 @@
           );
 
 
-        let text = "";
+        let text;
 
 
         if (diff > 0) {
@@ -1587,12 +1974,16 @@
           text =
             `باقي ${diff} يوم على نهاية الخطة`;
 
-        } else if (diff === 0) {
+        }
+
+        else if (diff === 0) {
 
           text =
             `اليوم هو آخر يوم في الخطة 🎯`;
 
-        } else {
+        }
+
+        else {
 
           text =
             `انتهت الخطة منذ ${Math.abs(diff)} يوم`;
@@ -1602,12 +1993,13 @@
 
         document.getElementById(
           "days-to-plan"
-        ).textContent = text;
+        ).textContent =
+          text;
 
       }
 
 
-      /* Exam countdown */
+      /* الاختبار */
 
       if (!examDate) {
 
@@ -1615,6 +2007,7 @@
           "days-to-exam"
         ).textContent =
           "حدد موعد الاختبار";
+
 
         document.getElementById(
           "countdown"
@@ -1648,6 +2041,7 @@
 
       }
 
+
       else if (examDiff === 0) {
 
         document.getElementById(
@@ -1662,6 +2056,7 @@
           "🎯 الاختبار اليوم — بالتوفيق!";
 
       }
+
 
       else {
 
@@ -1687,76 +2082,123 @@
 
     function getCurrentPhase() {
 
-      const today = getToday();
-
-      const start = getStartDate();
-
-
-      const medicineStart = start;
-
-      const medicineEnd = addDays(start, 13);
+      const today =
+        getToday();
 
 
-      const surgeryStart = addDays(start, 14);
-
-      const surgeryEnd = addDays(start, 28);
-
-
-      const obgynStart = addDays(start, 29);
-
-      const obgynEnd = addDays(start, 43);
+      const start =
+        getStartDate();
 
 
-      const pediatricsStart = addDays(start, 44);
+      const medicineStart =
+        start;
 
-      const pediatricsEnd = addDays(start, 58);
-
-
-      const consolidationStart = addMonths(start, 2);
-
-      const consolidationEnd = addMonths(start, 3);
+      const medicineEnd =
+        addDays(start, 13);
 
 
-      const simulationsStart = addMonths(start, 3);
+      const surgeryStart =
+        addDays(start, 14);
 
-      const simulationsEnd = addMonths(start, 4);
+      const surgeryEnd =
+        addDays(start, 28);
 
 
-      if (today >= medicineStart && today <= medicineEnd) {
+      const obgynStart =
+        addDays(start, 29);
+
+      const obgynEnd =
+        addDays(start, 43);
+
+
+      const pediatricsStart =
+        addDays(start, 44);
+
+      const pediatricsEnd =
+        addDays(start, 58);
+
+
+      const consolidationStart =
+        addMonths(start, 2);
+
+      const consolidationEnd =
+        addMonths(start, 3);
+
+
+      const simulationsStart =
+        addMonths(start, 3);
+
+      const simulationsEnd =
+        addMonths(start, 4);
+
+
+      if (
+        today >= medicineStart &&
+        today <= medicineEnd
+      ) {
 
         return {
-          phase: "المرحلة الأولى",
-          subject: "الباطنة — Review Team"
+
+          phase:
+            "المرحلة الأولى",
+
+          subject:
+            "الباطنة — Review Team"
+
         };
 
       }
 
 
-      if (today >= surgeryStart && today <= surgeryEnd) {
+      if (
+        today >= surgeryStart &&
+        today <= surgeryEnd
+      ) {
 
         return {
-          phase: "المرحلة الأولى",
-          subject: "الجراحة — حمود"
+
+          phase:
+            "المرحلة الأولى",
+
+          subject:
+            "الجراحة — حمود"
+
         };
 
       }
 
 
-      if (today >= obgynStart && today <= obgynEnd) {
+      if (
+        today >= obgynStart &&
+        today <= obgynEnd
+      ) {
 
         return {
-          phase: "المرحلة الأولى",
-          subject: "النساء والولادة — وفاء"
+
+          phase:
+            "المرحلة الأولى",
+
+          subject:
+            "النساء والولادة — وفاء"
+
         };
 
       }
 
 
-      if (today >= pediatricsStart && today <= pediatricsEnd) {
+      if (
+        today >= pediatricsStart &&
+        today <= pediatricsEnd
+      ) {
 
         return {
-          phase: "المرحلة الأولى",
-          subject: "الأطفال — مهدي"
+
+          phase:
+            "المرحلة الأولى",
+
+          subject:
+            "الأطفال — مهدي"
+
         };
 
       }
@@ -1768,8 +2210,13 @@
       ) {
 
         return {
-          phase: "الشهر الثالث",
-          subject: "MG / GB + 200 Anki يوميًا"
+
+          phase:
+            "الشهر الثالث",
+
+          subject:
+            "MG / GB + 200 Anki يوميًا"
+
         };
 
       }
@@ -1781,36 +2228,55 @@
       ) {
 
         return {
-          phase: "الشهر الرابع",
-          subject: "تجميعات + مراجعة الأخطاء"
+
+          phase:
+            "الشهر الرابع",
+
+          subject:
+            "تجميعات + مراجعة الأخطاء"
+
         };
 
       }
 
 
-      const allTasks = getAllTasks();
+      const allTasks =
+        getAllTasks();
+
 
       const completed =
         allTasks.length > 0 &&
         allTasks.every(
           task =>
-            localStorage.getItem(task.id) === "true"
+            localStorage.getItem(
+              task.id
+            ) === "true"
         );
 
 
       if (completed) {
 
         return {
-          phase: "الخطة مكتملة 🎉",
-          subject: "أحسنت!"
+
+          phase:
+            "الخطة مكتملة 🎉",
+
+          subject:
+            "أحسنت!"
+
         };
 
       }
 
 
       return {
-        phase: "قبل بداية الخطة",
-        subject: "جاهز للبدء"
+
+        phase:
+          "قبل بداية الخطة",
+
+        subject:
+          "جاهز للبدء"
+
       };
 
     }
@@ -1822,7 +2288,8 @@
 
     function updateDashboard() {
 
-      const current = getCurrentPhase();
+      const current =
+        getCurrentPhase();
 
 
       document.getElementById(
@@ -1840,13 +2307,15 @@
 
 
     /* ==========================================
-       DATE CHANGES
+       CHANGE START DATE
     ========================================== */
 
     function changeStartDate() {
 
       const input =
-        document.getElementById("start-date");
+        document.getElementById(
+          "start-date"
+        );
 
 
       if (!input.value) return;
@@ -1867,10 +2336,16 @@
     }
 
 
+    /* ==========================================
+       CHANGE EXAM DATE
+    ========================================== */
+
     function changeExamDate() {
 
       const input =
-        document.getElementById("exam-date-input");
+        document.getElementById(
+          "exam-date-input"
+        );
 
 
       if (!input.value) {
@@ -1879,7 +2354,9 @@
           STORAGE_EXAM_DATE
         );
 
-      } else {
+      }
+
+      else {
 
         localStorage.setItem(
           STORAGE_EXAM_DATE,
@@ -1909,11 +2386,15 @@
       if (!confirmed) return;
 
 
-      getAllTasks().forEach(task => {
+      getAllTasks().forEach(
+        task => {
 
-        localStorage.removeItem(task.id);
+          localStorage.removeItem(
+            task.id
+          );
 
-      });
+        }
+      );
 
 
       renderTasks();
@@ -1924,18 +2405,27 @@
 
 
     /* ==========================================
-       PAGE NAVIGATION
+       MENU
     ========================================== */
 
     function toggleMenu() {
 
       const menu =
-        document.getElementById("menu");
+        document.getElementById(
+          "menu"
+        );
 
-      menu.classList.toggle("hidden");
+
+      menu.classList.toggle(
+        "hidden"
+      );
 
     }
 
+
+    /* ==========================================
+       PAGE NAVIGATION
+    ========================================== */
 
     function showPage(page) {
 
@@ -1987,12 +2477,19 @@
 
 
       window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
       });
 
     }
 
+
+    /* ==========================================
+       GO TO SECTION
+    ========================================== */
 
     function goToSection(id) {
 
@@ -2008,8 +2505,11 @@
         if (element) {
 
           element.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
           });
 
         }
@@ -2020,7 +2520,7 @@
 
 
     /* ==========================================
-       CLOSE MENU OUTSIDE
+       CLOSE MENU WHEN CLICK OUTSIDE
     ========================================== */
 
     document.addEventListener(
@@ -2028,21 +2528,25 @@
       function(event) {
 
         const menu =
-          document.getElementById("menu");
+          document.getElementById(
+            "menu"
+          );
 
-        const button =
-          event.target.closest("button");
+
+        const menuButton =
+          event.target.closest(
+            'button[onclick="toggleMenu()"]'
+          );
 
 
         if (
           !menu.contains(event.target) &&
-          !(
-            button &&
-            button.getAttribute("onclick") === "toggleMenu()"
-          )
+          !menuButton
         ) {
 
-          menu.classList.add("hidden");
+          menu.classList.add(
+            "hidden"
+          );
 
         }
 
@@ -2051,7 +2555,7 @@
 
 
     /* ==========================================
-       UPDATE ALL
+       UPDATE EVERYTHING
     ========================================== */
 
     function updateAll() {
