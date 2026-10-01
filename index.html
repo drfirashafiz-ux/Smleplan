@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خطة الاستعداد للاختبار</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+    .custom-checkbox:checked { background-color: #0d9488; border-color: #0d9488; }
+    .custom-checkbox:checked + label { text-decoration: line-through; color: #94a3b8; }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-12">
+
+  <!-- الشريط العلوي للتقدم اللحظي -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm px-4 py-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <h1 class="text-lg font-bold text-slate-900">🩺 خطة الاستعداد للاختبار</h1>
+          <p class="text-xs text-slate-500">البداية: ١ أكتوبر ٢٠٢٦ | المدة: ٤ أشهر</p>
+        </div>
+        <div class="text-left">
+          <span id="overall-percentage" class="text-2xl font-black text-teal-600">0%</span>
+          <p class="text-xs text-slate-400 font-medium">إجمالي الإنجاز</p>
+        </div>
+      </div>
+
+      <!-- شريط التقدم الرئيسي -->
+      <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-200">
+        <div id="overall-progress-bar" class="bg-gradient-to-r from-teal-500 to-emerald-500 h-full rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+      </div>
+
+      <!-- إحصائيات سريعة -->
+      <div class="flex justify-between items-center mt-3 text-xs font-semibold text-slate-600 border-t border-slate-100 pt-2">
+        <div>المكتمل: <span id="completed-count" class="text-emerald-600 font-bold">0</span></div>
+        <div>المتبقي: <span id="remaining-count" class="text-amber-600 font-bold">0</span></div>
+        <div>الإجمالي: <span id="total-count" class="text-slate-800 font-bold">0</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- المحتوى والأقسام -->
+  <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
+
+    <!-- شريط أدوات التحكم -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-3 items-center justify-between">
+      <button onclick="resetAllProgress()" class="text-xs bg-red-50 text-red-600 hover:bg-red-100 font-bold px-3 py-2 rounded-lg transition border border-red-200">
+        🔄 إعادة ضبط التقدم
+      </button>
+      <div class="text-xs text-slate-500">
+        * يتم حفظ التقدم تلقائياً عند النقر على أي مهمة.
+      </div>
+    </div>
+
+    <!-- المرحلة الأولى: التخصصات -->
+    <div class="space-y-4">
+      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-teal-600 pr-2">المرحلة الأولى: الأساسيات والتخصصات (الشهر ١ و ٢)</h2>
+      
+      <!-- 1. الباطنة -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-teal-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">١. الباطنة — Internal Medicine</h3>
+            <p class="text-xs text-teal-100">📅 ١–١٤ أكتوبر (٢٧ محاضرة)</p>
+          </div>
+          <span id="badge-medicine" class="text-xs bg-teal-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-medicine"></div>
+      </section>
+
+      <!-- 2. الجراحة -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">٢. الجراحة — Surgery</h3>
+            <p class="text-xs text-blue-100">📅 ١٥–٢٩ أكتوبر (٨٩ صفحة)</p>
+          </div>
+          <span id="badge-surgery" class="text-xs bg-blue-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-surgery"></div>
+      </section>
+
+      <!-- 3. النساء والولادة -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-purple-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">٣. النساء والولادة — OB/GYN</h3>
+            <p class="text-xs text-purple-100">📅 ٣٠ أكتوبر–١٣ نوفمبر (٣٠ Topic)</p>
+          </div>
+          <span id="badge-obgyn" class="text-xs bg-purple-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-obgyn"></div>
+      </section>
+
+      <!-- 4. الأطفال -->
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-amber-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">٤. الأطفال — Pediatrics</h3>
+            <p class="text-xs text-amber-100">📅 ١٤–٢٨ نوفمبر (٣٠ Topic)</p>
+          </div>
+          <span id="badge-pediatrics" class="text-xs bg-amber-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-pediatrics"></div>
+      </section>
+    </div>
+
+    <!-- المرحلة الثانية: التثبيت والدراسة المركزة -->
+    <div class="space-y-4 pt-4">
+      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-indigo-600 pr-2">المرحلة الثانية: التثبيت والدراسة المركزة (الشهر ٣)</h2>
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-indigo-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">تثبيت المفاهيم والمراجعة المركزة</h3>
+            <p class="text-xs text-indigo-100">📅 ديسمبر (MG, GB & Anki Cards)</p>
+          </div>
+          <span id="badge-consolidation" class="text-xs bg-indigo-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-consolidation"></div>
+      </section>
+    </div>
+
+    <!-- المرحلة الثالثة: المحاكاة والاختبارات -->
+    <div class="space-y-4 pt-4">
+      <h2 class="text-base font-extrabold text-slate-700 border-r-4 border-rose-600 pr-2">المرحلة الثالثة: بنوك الأسئلة والمحاكاة (الشهر ٤)</h2>
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-rose-600 text-white p-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">الاختبارات التجريبية والمراجعة النهائية</h3>
+            <p class="text-xs text-rose-100">📅 يناير (Question Banks & Simulations)</p>
+          </div>
+          <span id="badge-simulations" class="text-xs bg-rose-800/60 px-2.5 py-1 rounded-full font-bold">0%</span>
+        </div>
+        <div class="p-4 space-y-3" id="group-simulations"></div>
+      </section>
+    </div>
+
+  </main>
+
+  <script>
+    const tasksData = {
+      medicine: [
+        { id: "med_1", label: "اليوم ١ — محاضرتان" },
+        { id: "med_2", label: "اليوم ٢ — محاضرتان" },
+        { id: "med_3", label: "اليوم ٣ — محاضرتان" },
+        { id: "med_4", label: "اليوم ٤ — محاضرتان" },
+        { id: "med_5", label: "اليوم ٥ — محاضرتان" },
+        { id: "med_6", label: "اليوم ٦ — محاضرتان" },
+        { id: "med_7", label: "اليوم ٧ — محاضرتان" },
+        { id: "med_8", label: "اليوم ٨ — محاضرتان" },
+        { id: "med_9", label: "اليوم ٩ — محاضرتان" },
+        { id: "med_10", label: "اليوم ١٠ — محاضرتان" },
+        { id: "med_11", label: "اليوم ١١ — محاضرتان" },
+        { id: "med_12", label: "اليوم ١٢ — محاضرتان" },
+        { id: "med_13", label: "اليوم ١٣ — محاضرتان" },
+        { id: "med_14", label: "اليوم ١٤ — محاضرة واحدة" }
+      ],
+      surgery: Array.from({ length: 14 }, (_, i) => ({ id: `surg_${i+1}`, label: `اليوم ${i+1} — ٦ صفحات` }))
+        .concat([{ id: "surg_15", label: "اليوم ١٥ — ٥ صفحات" }]),
+      obgyn: Array.from({ length: 15 }, (_, i) => ({ id: `ob_${i+1}`, label: `اليوم ${i+1} — 2 Topics + MG/GB` })),
+      pediatrics: Array.from({ length: 15 }, (_, i) => ({ id: `ped_${i+1}`, label: `اليوم ${i+1} — 2 Topics + MG/GB` })),
+      consolidation: [
+        { id: "con_1", label: "الأسبوع ١ — مراجعة الباطنة (MG/GB)" },
+        { id: "con_2", label: "الأسبوع ٢ — مراجعة الجراحة (MG/GB)" },
+        { id: "con_3", label: "الأسبوع ٣ — مراجعة النساء والولادة (Anki Cards)" },
+        { id: "con_4", label: "الأسبوع ٤ — مراجعة الأطفال (Anki Cards)" }
+      ],
+      simulations: [
+        { id: "sim_1", label: "الأسبوع ١ — حل بنك الأسئلة (Q-Bank Phase 1)" },
+        { id: "sim_2", label: "الأسبوع ٢ — محاكاة اختبار أولى (Mock Exam 1)" },
+        { id: "sim_3", label: "الأسبوع ٣ — محاكاة اختبار ثانية (Mock Exam 2)" },
+        { id: "sim_4", label: "الأسبوع ٤ — المراجعة السريعة النهائية" }
+      ]
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTasks();
+      updateProgressUI();
+    });
+
+    function renderTasks() {
+      Object.keys(tasksData).forEach(groupKey => {
+        const container = document.getElementById(`group-${groupKey}`);
+        if (!container) return;
+
+        container.innerHTML = tasksData[groupKey].map(task => {
+          const isChecked = localStorage.getItem(task.id) === "true";
+          return `
+            <div class="flex items-center space-x-3 space-x-reverse p-2.5 rounded-lg hover:bg-slate-50 border border-slate-100 transition">
+              <input type="checkbox" id="${task.id}" ${isChecked ? "checked" : ""} 
+                onchange="toggleTask('${task.id}')"
+                class="custom-checkbox w-5 h-5 rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer">
+              <label for="${task.id}" class="text-sm font-medium text-slate-700 cursor-pointer select-none flex-1">
+                ${task.label}
+              </label>
+            </div>
+          `;
+        }).join("");
+      });
+    }
+
+    function toggleTask(id) {
+      const checkbox = document.getElementById(id);
+      if (checkbox) {
+        localStorage.setItem(id, checkbox.checked);
+        updateProgressUI();
+      }
+    }
+
+    function updateProgressUI() {
+      let totalTasks = 0;
+      let completedTasks = 0;
+
+      Object.keys(tasksData).forEach(groupKey => {
+        const groupList = tasksData[groupKey];
+        let groupCompleted = 0;
+
+        groupList.forEach(task => {
+          totalTasks++;
+          if (localStorage.getItem(task.id) === "true") {
+            completedTasks++;
+            groupCompleted++;
+          }
+        });
+
+        const groupPercent = groupList.length ? Math.round((groupCompleted / groupList.length) * 100) : 0;
+        const badge = document.getElementById(`badge-${groupKey}`);
+        if (badge) badge.innerText = `${groupPercent}%`;
+      });
+
+      const overallPercent = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      document.getElementById("overall-percentage").innerText = `${overallPercent}%`;
+      document.getElementById("overall-progress-bar").style.width = `${overallPercent}%`;
+      document.getElementById("completed-count").innerText = completedTasks;
+      document.getElementById("remaining-count").innerText = totalTasks - completedTasks;
+      document.getElementById("total-count").innerText = totalTasks;
+    }
+
+    function resetAllProgress() {
+      if (confirm("هل أنت تأكد من إزالة جميع العلامات وإعادة الضبط؟")) {
+        localStorage.clear();
+        renderTasks();
+        updateProgressUI();
+      }
+    }
+  </script>
+</body>
+</html>
