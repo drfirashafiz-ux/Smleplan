@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,9 +79,7 @@
 
 <body class="text-slate-800 antialiased min-h-screen pb-12">
 
-  <!-- ==================================================
-       HEADER
-  =================================================== -->
+  <!-- HEADER -->
 
   <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
 
@@ -195,16 +192,12 @@
   </header>
 
 
-  <!-- ==================================================
-       MAIN
-  =================================================== -->
+  <!-- MAIN -->
 
   <main class="max-w-5xl mx-auto px-4 mt-6">
 
 
-    <!-- ==================================================
-         HOME PAGE
-    =================================================== -->
+    <!-- HOME -->
 
     <section id="home-page" class="space-y-6">
 
@@ -317,7 +310,6 @@
 
       <section class="grid md:grid-cols-2 gap-4">
 
-
         <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
 
           <p class="text-sm text-slate-500 font-bold">
@@ -380,7 +372,6 @@
 
 
         <div class="grid sm:grid-cols-2 gap-4 p-5">
-
 
           <div>
 
@@ -461,7 +452,6 @@
 
         <div class="grid sm:grid-cols-2 gap-4">
 
-
           <div>
 
             <label class="block text-sm font-bold mb-2">
@@ -510,8 +500,6 @@
       </section>
 
 
-      <!-- إعادة التعيين -->
-
       <section class="flex justify-center">
 
         <button
@@ -526,9 +514,7 @@
     </section>
 
 
-    <!-- ==================================================
-         PLAN PAGE
-    =================================================== -->
+    <!-- PLAN -->
 
     <section id="plan-page" class="hidden space-y-6">
 
@@ -581,7 +567,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  37 محاضرة خلال 15 يوم
+                  37 محاضرة خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -627,7 +613,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  89 صفحة خلال 15 يوم
+                  89 صفحة خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -673,7 +659,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  موضوعين أو قراءة محاضرتين خلال 15 يوم + MG / GB
+                  موضوعين خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -719,7 +705,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  موضوعين أو قراءة محاضرتين خلال 15 يوم + MG / GB
+                  موضوعين خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -839,9 +825,7 @@
     </section>
 
 
-    <!-- ==================================================
-         SOURCES PAGE
-    =================================================== -->
+    <!-- SOURCES -->
 
     <section id="sources-page" class="hidden space-y-6">
 
@@ -865,8 +849,6 @@
 
       <div class="grid sm:grid-cols-2 gap-4">
 
-
-        <!-- Review Team -->
 
         <a
           href="https://t.me/SMLE_medicine"
@@ -906,8 +888,6 @@
         </a>
 
 
-        <!-- Wafa -->
-
         <a
           href="https://t.me/WafaOBGYN"
           target="_blank"
@@ -946,8 +926,6 @@
         </a>
 
 
-        <!-- Hamoud -->
-
         <a
           href="https://t.me/SurgeryByHamoud"
           target="_blank"
@@ -985,8 +963,6 @@
 
         </a>
 
-
-        <!-- Mahdi -->
 
         <a
           href="https://t.me/smlepaediatrics"
@@ -1038,7 +1014,6 @@
 
 
         <div class="grid sm:grid-cols-2 gap-3">
-
 
           <button
             onclick="goToSection('medicine-section')"
@@ -1113,9 +1088,7 @@
   </main>
 
 
-  <!-- ==================================================
-       FOOTER
-  =================================================== -->
+  <!-- FOOTER -->
 
   <footer class="max-w-5xl mx-auto px-4 mt-10 text-center">
 
@@ -1126,15 +1099,9 @@
   </footer>
 
 
-  <!-- ==================================================
-       JAVASCRIPT
-  =================================================== -->
+  <!-- JAVASCRIPT -->
 
   <script>
-
-    /* ==========================================
-       STORAGE
-    ========================================== */
 
     const STORAGE_START_DATE =
       "exam_plan_start_date";
@@ -1145,10 +1112,6 @@
     const STORAGE_VISIT_COUNT =
       "exam_plan_visit_count";
 
-
-    /* ==========================================
-       TASK DATA
-    ========================================== */
 
     const tasksData = {
 
@@ -1333,33 +1296,36 @@
 
       /* =========================
          MEDICINE
-         37 محاضرة / 15 يوم
+         37 LECTURES / 15 DAYS
       ========================= */
 
-      let lectureNumber = 1;
+      const medicineTotal =
+        37;
 
-      for (let i = 0; i < 15; i++) {
+      const medicineDays =
+        15;
+
+      const medicineStart =
+        startDate;
+
+
+      for (let i = 0; i < medicineDays; i++) {
 
         const date =
-          addDays(startDate, i);
+          addDays(medicineStart, i);
 
-        const remainingDays =
-          15 - i;
 
-        const remainingLectures =
-          37 - lectureNumber + 1;
+        const startLecture =
+          Math.floor(
+            i * medicineTotal / medicineDays
+          ) + 1;
 
-        const lecturesToday =
-          Math.ceil(
-            remainingLectures /
-            remainingDays
+
+        const endLecture =
+          Math.floor(
+            (i + 1) * medicineTotal / medicineDays
           );
 
-        const firstLecture =
-          lectureNumber;
-
-        const lastLecture =
-          lectureNumber + lecturesToday - 1;
 
         tasksData.medicine.push({
 
@@ -1369,51 +1335,48 @@
           date,
 
           label:
-            `اليوم ${i + 1} — الباطنة: محاضرات ${firstLecture}–${lastLecture}`,
+            `اليوم ${i + 1} — محاضرة ${startLecture} إلى ${endLecture} + MG / GB`,
 
           type:
             "medicine"
 
         });
 
-        lectureNumber =
-          lastLecture + 1;
-
       }
 
 
       /* =========================
          SURGERY
-         89 صفحة / 15 يوم
+         89 PAGES / 15 DAYS
       ========================= */
+
+      const surgeryTotal =
+        89;
+
+      const surgeryDays =
+        15;
 
       const surgeryStart =
         addDays(startDate, 15);
 
-      let surgeryPage = 1;
 
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < surgeryDays; i++) {
 
         const date =
           addDays(surgeryStart, i);
 
-        const remainingDays =
-          15 - i;
 
-        const remainingPages =
-          89 - surgeryPage + 1;
+        const startPage =
+          Math.floor(
+            i * surgeryTotal / surgeryDays
+          ) + 1;
 
-        const pagesToday =
-          Math.ceil(
-            remainingPages /
-            remainingDays
+
+        const endPage =
+          Math.floor(
+            (i + 1) * surgeryTotal / surgeryDays
           );
 
-        const firstPage =
-          surgeryPage;
-
-        const lastPage =
-          surgeryPage + pagesToday - 1;
 
         tasksData.surgery.push({
 
@@ -1423,26 +1386,23 @@
           date,
 
           label:
-            `اليوم ${i + 1} — الجراحة: صفحات ${firstPage}–${lastPage}`,
+            `اليوم ${i + 1} — من صفحة ${startPage} إلى صفحة ${endPage} + MG / GB`,
 
           type:
             "surgery"
 
         });
 
-        surgeryPage =
-          lastPage + 1;
-
       }
 
 
       /* =========================
          OBGYN
-         15 يوم
       ========================= */
 
       const obgynStart =
         addDays(startDate, 30);
+
 
       for (let i = 0; i < 15; i++) {
 
@@ -1457,7 +1417,7 @@
           date,
 
           label:
-            `اليوم ${i + 1} — موضوعين أو قراءة محاضرتين + MG / GB`,
+            `اليوم ${i + 1} — موضوعين + MG / GB`,
 
           type:
             "obgyn"
@@ -1469,11 +1429,11 @@
 
       /* =========================
          PEDIATRICS
-         15 يوم
       ========================= */
 
       const pediatricsStart =
         addDays(startDate, 45);
+
 
       for (let i = 0; i < 15; i++) {
 
@@ -1488,7 +1448,7 @@
           date,
 
           label:
-            `اليوم ${i + 1} — موضوعين أو قراءة محاضرتين + MG / GB`,
+            `اليوم ${i + 1} — موضوعين + MG / GB`,
 
           type:
             "pediatrics"
@@ -2606,7 +2566,7 @@
 
 
     /* ==========================================
-       CLOSE MENU WHEN CLICK OUTSIDE
+       CLOSE MENU
     ========================================== */
 
     document.addEventListener(
