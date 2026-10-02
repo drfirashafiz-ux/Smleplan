@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,7 +88,6 @@
 
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
-      <!-- العنوان -->
       <div>
         <h1 class="font-black text-lg sm:text-xl text-slate-900">
           🩺 خطة الاستعداد للاختبار
@@ -99,7 +99,6 @@
       </div>
 
 
-      <!-- شريط الإنجاز -->
       <div class="hidden sm:block flex-1 max-w-xs">
 
         <div class="flex justify-between text-xs font-bold mb-1">
@@ -118,7 +117,6 @@
       </div>
 
 
-      <!-- القائمة -->
       <div class="relative">
 
         <button
@@ -159,7 +157,6 @@
           </button>
 
 
-          <!-- Telegram Support -->
           <a
             href="https://t.me/Firas_H21"
             target="_blank"
@@ -176,7 +173,6 @@
     </div>
 
 
-    <!-- Progress للجوال -->
     <div class="sm:hidden px-4 pb-3">
 
       <div class="flex justify-between text-xs font-bold mb-1">
@@ -212,8 +208,6 @@
 
     <section id="home-page" class="space-y-6">
 
-
-      <!-- الترحيب -->
 
       <section class="bg-gradient-to-l from-teal-700 to-teal-600 text-white rounded-3xl p-6 shadow-sm">
 
@@ -300,8 +294,6 @@
 
         </div>
 
-
-        <!-- عداد الزيارات -->
 
         <div class="dashboard-card bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
 
@@ -589,7 +581,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  27 محاضرة خلال 14 يوم
+                  37 محاضرة خلال 15 يوم
                 </p>
 
               </div>
@@ -681,7 +673,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  30 موضوع خلال 15 يوم + MG / GB
+                  موضوعين أو قراءة محاضرتين خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -727,7 +719,7 @@
                 </h3>
 
                 <p class="text-sm text-slate-500 mt-1">
-                  30 موضوع خلال 15 يوم + MG / GB
+                  موضوعين أو قراءة محاضرتين خلال 15 يوم + MG / GB
                 </p>
 
               </div>
@@ -1150,7 +1142,6 @@
     const STORAGE_EXAM_DATE =
       "exam_plan_exam_date";
 
-    /* عداد الزيارات */
     const STORAGE_VISIT_COUNT =
       "exam_plan_visit_count";
 
@@ -1342,41 +1333,87 @@
 
       /* =========================
          MEDICINE
+         37 محاضرة / 15 يوم
       ========================= */
 
-      for (let i = 0; i < 14; i++) {
+      let lectureNumber = 1;
+
+      for (let i = 0; i < 15; i++) {
 
         const date =
           addDays(startDate, i);
 
+        const remainingDays =
+          15 - i;
+
+        const remainingLectures =
+          37 - lectureNumber + 1;
+
+        const lecturesToday =
+          Math.ceil(
+            remainingLectures /
+            remainingDays
+          );
+
+        const firstLecture =
+          lectureNumber;
+
+        const lastLecture =
+          lectureNumber + lecturesToday - 1;
+
         tasksData.medicine.push({
 
-          id: `medicine_${i + 1}`,
+          id:
+            `medicine_${i + 1}`,
 
           date,
 
           label:
-            `اليوم ${i + 1} — الباطنة`,
+            `اليوم ${i + 1} — الباطنة: محاضرات ${firstLecture}–${lastLecture}`,
 
-          type: "medicine"
+          type:
+            "medicine"
 
         });
+
+        lectureNumber =
+          lastLecture + 1;
 
       }
 
 
       /* =========================
          SURGERY
+         89 صفحة / 15 يوم
       ========================= */
 
       const surgeryStart =
-        addDays(startDate, 14);
+        addDays(startDate, 15);
 
+      let surgeryPage = 1;
 
       for (let i = 0; i < 15; i++) {
 
         const date =
           addDays(surgeryStart, i);
+
+        const remainingDays =
+          15 - i;
+
+        const remainingPages =
+          89 - surgeryPage + 1;
+
+        const pagesToday =
+          Math.ceil(
+            remainingPages /
+            remainingDays
+          );
+
+        const firstPage =
+          surgeryPage;
+
+        const lastPage =
+          surgeryPage + pagesToday - 1;
 
         tasksData.surgery.push({
 
@@ -1386,22 +1423,26 @@
           date,
 
           label:
-            `اليوم ${i + 1} — الجراحة`,
+            `اليوم ${i + 1} — الجراحة: صفحات ${firstPage}–${lastPage}`,
 
-          type: "surgery"
+          type:
+            "surgery"
 
         });
+
+        surgeryPage =
+          lastPage + 1;
 
       }
 
 
       /* =========================
          OBGYN
+         15 يوم
       ========================= */
 
       const obgynStart =
-        addDays(startDate, 29);
-
+        addDays(startDate, 30);
 
       for (let i = 0; i < 15; i++) {
 
@@ -1416,9 +1457,10 @@
           date,
 
           label:
-            `اليوم ${i + 1} — 2 Topics + MG / GB`,
+            `اليوم ${i + 1} — موضوعين أو قراءة محاضرتين + MG / GB`,
 
-          type: "obgyn"
+          type:
+            "obgyn"
 
         });
 
@@ -1427,11 +1469,11 @@
 
       /* =========================
          PEDIATRICS
+         15 يوم
       ========================= */
 
       const pediatricsStart =
-        addDays(startDate, 44);
-
+        addDays(startDate, 45);
 
       for (let i = 0; i < 15; i++) {
 
@@ -1446,9 +1488,10 @@
           date,
 
           label:
-            `اليوم ${i + 1} — 2 Topics + MG / GB`,
+            `اليوم ${i + 1} — موضوعين أو قراءة محاضرتين + MG / GB`,
 
-          type: "pediatrics"
+          type:
+            "pediatrics"
 
         });
 
@@ -2002,8 +2045,6 @@
         getExamDate();
 
 
-      /* الخطة */
-
       if (planEnd) {
 
         const diff =
@@ -2045,8 +2086,6 @@
 
       }
 
-
-      /* الاختبار */
 
       if (!examDate) {
 
@@ -2141,28 +2180,28 @@
         start;
 
       const medicineEnd =
-        addDays(start, 13);
+        addDays(start, 14);
 
 
       const surgeryStart =
-        addDays(start, 14);
+        addDays(start, 15);
 
       const surgeryEnd =
-        addDays(start, 28);
+        addDays(start, 29);
 
 
       const obgynStart =
-        addDays(start, 29);
+        addDays(start, 30);
 
       const obgynEnd =
-        addDays(start, 43);
+        addDays(start, 44);
 
 
       const pediatricsStart =
-        addDays(start, 44);
+        addDays(start, 45);
 
       const pediatricsEnd =
-        addDays(start, 58);
+        addDays(start, 59);
 
 
       const consolidationStart =
@@ -2654,10 +2693,6 @@
 
         renderTasks();
 
-        /*
-         * زيادة عداد الزيارات مرة واحدة
-         * عند فتح الموقع
-         */
         updateVisitCounter();
 
         updateAll();
