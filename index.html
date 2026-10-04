@@ -22,11 +22,19 @@
     .custom-checkbox:checked {
       background-color: #0d9488;
       border-color: #0d9488;
+      position: relative;
     }
 
-    .custom-checkbox:checked + label {
-      text-decoration: line-through;
-      color: #94a3b8;
+    .custom-checkbox:checked::after {
+      content: "✓";
+      position: absolute;
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1;
     }
 
     .date-input {
@@ -1698,6 +1706,7 @@
 
     /* ==========================================
        RENDER TASK LIST
+       تعديل: تشطيب المهمة عند وضع الصح
     ========================================== */
 
     function renderTaskList(
@@ -1744,11 +1753,7 @@
           checked;
 
         checkbox.className =
-          "custom-checkbox appearance-none w-5 h-5 shrink-0 rounded-md border-2 border-slate-300 cursor-pointer";
-
-
-        checkbox.onclick =
-          () => toggleTask(task.id);
+          "custom-checkbox appearance-none w-5 h-5 shrink-0 rounded-md border-2 border-slate-300 cursor-pointer relative";
 
 
         const content =
@@ -1765,11 +1770,23 @@
           task.id;
 
         label.className =
-          "block font-bold cursor-pointer text-sm sm:text-base";
+          "block font-bold cursor-pointer text-sm sm:text-base transition-all";
 
 
         label.textContent =
           task.label;
+
+
+        /* إذا كانت المهمة مكتملة عند فتح الصفحة */
+
+        if (checked) {
+
+          label.classList.add(
+            "line-through",
+            "text-slate-400"
+          );
+
+        }
 
 
         const date =
@@ -1781,6 +1798,41 @@
 
         date.textContent =
           formatDate(task.date);
+
+
+        checkbox.onclick =
+          () => {
+
+            localStorage.setItem(
+              task.id,
+              checkbox.checked
+                ? "true"
+                : "false"
+            );
+
+
+            /* تشطيب التوبيك مباشرة */
+
+            if (checkbox.checked) {
+
+              label.classList.add(
+                "line-through",
+                "text-slate-400"
+              );
+
+            } else {
+
+              label.classList.remove(
+                "line-through",
+                "text-slate-400"
+              );
+
+            }
+
+
+            updateAll();
+
+          };
 
 
         content.appendChild(label);
