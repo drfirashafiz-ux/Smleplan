@@ -1461,6 +1461,10 @@
           );
 
 
+        const lectureCount =
+          endLecture - startLecture + 1;
+
+
         tasksData.medicine.push({
 
           id:
@@ -1469,7 +1473,7 @@
           date,
 
           label:
-            `اليوم ${i + 1} — محاضرة ${startLecture} إلى ${endLecture} + MG / GB`,
+            `اليوم ${i + 1} — ${lectureCount} محاضرات + MG / GB`,
 
           type:
             "medicine"
