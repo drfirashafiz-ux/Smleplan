@@ -89,6 +89,22 @@
     .telegram-card:hover {
       transform: translateY(-2px);
     }
+
+    /* تمييز المهمة الأساسية */
+    .main-task {
+      color: #dc2626;
+      font-weight: 900;
+    }
+
+    .secondary-task {
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .task-separator {
+      color: #64748b;
+      font-weight: 700;
+    }
   </style>
 </head>
 
@@ -1472,8 +1488,12 @@
 
           date,
 
-          label:
-            `اليوم ${i + 1} — ${lectureCount} محاضرات + MG / GB`,
+          /* التعديل الأول */
+          mainTask:
+            `عدد المحاضرات : ${lectureCount}`,
+
+          secondaryTask:
+            "MG / GB",
 
           type:
             "medicine"
@@ -1523,8 +1543,11 @@
 
           date,
 
-          label:
-            `اليوم ${i + 1} — من صفحة ${startPage} إلى صفحة ${endPage} + MG / GB`,
+          mainTask:
+            `من صفحة ${startPage} إلى صفحة ${endPage}`,
+
+          secondaryTask:
+            "MG / GB",
 
           type:
             "surgery"
@@ -1554,8 +1577,11 @@
 
           date,
 
-          label:
-            `اليوم ${i + 1} — موضوعين + MG / GB`,
+          mainTask:
+            "موضوعين",
+
+          secondaryTask:
+            "MG / GB",
 
           type:
             "obgyn"
@@ -1585,8 +1611,11 @@
 
           date,
 
-          label:
-            `اليوم ${i + 1} — موضوعين + MG / GB`,
+          mainTask:
+            "موضوعين",
+
+          secondaryTask:
+            "MG / GB",
 
           type:
             "pediatrics"
@@ -1626,8 +1655,8 @@
           date:
             new Date(currentDate),
 
-          label:
-            `اليوم ${dayNumber} — MG / GB`,
+          mainTask:
+            "MG / GB",
 
           type:
             "consolidation"
@@ -1643,8 +1672,8 @@
           date:
             new Date(currentDate),
 
-          label:
-            `اليوم ${dayNumber} — 200 Anki`,
+          mainTask:
+            "200 Anki",
 
           type:
             "consolidation"
@@ -1689,8 +1718,8 @@
           date:
             new Date(currentDate),
 
-          label:
-            `اليوم ${dayNumber} — تجميعات + مراجعة الأخطاء`,
+          mainTask:
+            "تجميعات + مراجعة الأخطاء",
 
           type:
             "simulations"
@@ -1710,7 +1739,8 @@
 
     /* ==========================================
        RENDER TASK LIST
-       تعديل: تشطيب المهمة عند وضع الصح
+       التعديل الثاني:
+       تمييز المهمة الأساسية باللون الأحمر
     ========================================== */
 
     function renderTaskList(
@@ -1777,8 +1807,48 @@
           "block font-bold cursor-pointer text-sm sm:text-base transition-all";
 
 
-        label.textContent =
-          task.label;
+        /* إنشاء النص مع تمييز المهمة الأساسية */
+
+        const mainSpan =
+          document.createElement("span");
+
+        mainSpan.className =
+          "main-task";
+
+        mainSpan.textContent =
+          task.mainTask;
+
+
+        label.appendChild(mainSpan);
+
+
+        if (task.secondaryTask) {
+
+          const separator =
+            document.createElement("span");
+
+          separator.className =
+            "task-separator";
+
+          separator.textContent =
+            " + ";
+
+
+          const secondarySpan =
+            document.createElement("span");
+
+          secondarySpan.className =
+            "secondary-task";
+
+          secondarySpan.textContent =
+            task.secondaryTask;
+
+
+          label.appendChild(separator);
+
+          label.appendChild(secondarySpan);
+
+        }
 
 
         /* إذا كانت المهمة مكتملة عند فتح الصفحة */
@@ -1788,6 +1858,14 @@
           label.classList.add(
             "line-through",
             "text-slate-400"
+          );
+
+          mainSpan.classList.remove(
+            "main-task"
+          );
+
+          secondarySpanSafe(
+            label
           );
 
         }
@@ -1815,8 +1893,6 @@
             );
 
 
-            /* تشطيب التوبيك مباشرة */
-
             if (checkbox.checked) {
 
               label.classList.add(
@@ -1824,11 +1900,19 @@
                 "text-slate-400"
               );
 
+              mainSpan.classList.remove(
+                "main-task"
+              );
+
             } else {
 
               label.classList.remove(
                 "line-through",
                 "text-slate-400"
+              );
+
+              mainSpan.classList.add(
+                "main-task"
               );
 
             }
@@ -1848,6 +1932,31 @@
         wrapper.appendChild(content);
 
         container.appendChild(wrapper);
+
+      });
+
+    }
+
+
+    /* إعادة تفعيل لون المهمة الأساسية عند عدم اكتمالها */
+    function secondarySpanSafe(label) {
+
+      const spans =
+        label.querySelectorAll("span");
+
+      spans.forEach(span => {
+
+        if (
+          span.classList.contains(
+            "secondary-task"
+          )
+        ) {
+
+          span.classList.add(
+            "text-slate-400"
+          );
+
+        }
 
       });
 
